@@ -1,0 +1,6 @@
+{
+  "name": "CESS UofK",
+  "description": "Civil Engineering Students Society — University of Khartoum official website",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
