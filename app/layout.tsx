@@ -26,6 +26,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: 'CESS UofK — Civil Engineering Students Society, University of Khartoum',
   description: 'Civil Engineering Students Society — University of Khartoum (CESS UofK). Non-profit, student-run society established in 2013.',
+  icons: {
+    icon: '/favicon.png', // Adjust this path if your favicon is located elsewhere, e.g., '/images/favicon.ico'
+  },
   openGraph: {
     title: 'CESS UofK — Civil Engineering Students Society, University of Khartoum',
     description: 'Civil Engineering Students Society — University of Khartoum. Non-profit, student-run society.',
