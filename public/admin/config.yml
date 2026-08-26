@@ -2,8 +2,8 @@ backend:
   name: github
   repo: cessuofk/official-website
   branch: main
-  auth_type: pkce
-  app_id: Ov23LiDmewMzLPWVPPZE
+  base_url: https://cms-auth.develtio.com # Or your chosen gateway base URL
+  auth_endpoint: auth
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
