@@ -1,0 +1,25 @@
+backend:
+  name: github
+  repo: cessuofk/official-website # Update this!
+  branch: main
+  app_id: Ov23liDmewMzLPWVPPZE # We will generate this in Step 2.2
+  auth_type: pkce
+
+# Where images will be saved
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# The Content Schema
+collections:
+  - name: "board_members"
+    label: "Board Members"
+    folder: "content/board"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "ID", name: "id", widget: "number"}
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Role", name: "role", widget: "string"}
+      - {label: "Category", name: "category", widget: "select", options: ["Executive", "Secretariat", "Council", "Honorary"]}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - {label: "Scope", name: "scope", widget: "text", required: false}
