@@ -6,13 +6,10 @@
     <title>CESS UofK - Content Manager</title>
   </head>
   <body>
-    <!-- Include the script that builds the page and powers Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-    <script>
-      // Initialize CMS manually to ensure config path is recognized
-      if (window.CMS) {
-        window.CMS.init();
-      }
-    </script>
+    <!-- Decap CMS Root App -->
+    <div id="nc-root"></div>
+
+    <!-- Include Decap CMS Script -->
+    <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
   </body>
 </html>
