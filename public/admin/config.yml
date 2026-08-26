@@ -1,15 +1,13 @@
 backend:
   name: github
-  repo: cessuofk/official-website # Update this!
+  repo: cessuofk/official-website # Update with your owner/repo
   branch: main
-  app_id: Ov23liDmewMzLPWVPPZE # We will generate this in Step 2.2
   auth_type: pkce
+  app_id: Ov23liDmewMzLPWVPPZE # Your GitHub OAuth App Client ID
 
-# Where images will be saved
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
-# The Content Schema
 collections:
   - name: "board_members"
     label: "Board Members"
