@@ -4,8 +4,6 @@ backend:
   branch: main
   auth_type: pkce
   app_id: Ov23LiDmewMzLPWVPPZE
-  base_url: https://cessuofk.site
-  auth_endpoint: /admin/index.html
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
