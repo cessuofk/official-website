@@ -4,7 +4,7 @@ backend:
   branch: main
   auth_type: pkce
   app_id: Ov23liDmewMzLPWVPPZE # Your GitHub OAuth App Client ID
-
+  
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
@@ -15,7 +15,7 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - {label: "ID", name: "id", widget: "number"}
+      - {label: "ID", name: "id", widget: "string"}
       - {label: "Name", name: "name", widget: "string"}
       - {label: "Role", name: "role", widget: "string"}
       - {label: "Category", name: "category", widget: "select", options: ["Executive", "Secretariat", "Council", "Honorary"]}
