@@ -27,12 +27,22 @@ export const metadata: Metadata = {
   title: 'CESS UofK — Civil Engineering Students Society, University of Khartoum',
   description: 'Civil Engineering Students Society — University of Khartoum (CESS UofK). Non-profit, student-run society established in 2013.',
   icons: {
-    icon: '/favicon.png', // Adjust this path if your favicon is located elsewhere, e.g., '/images/favicon.ico'
+    icon: '/favicon.png',
+    apple: '/cess-lockup-ink.png', 
   },
   openGraph: {
     title: 'CESS UofK — Civil Engineering Students Society, University of Khartoum',
     description: 'Civil Engineering Students Society — University of Khartoum. Non-profit, student-run society.',
     type: 'website',
+    // Add this images array for link previews:
+    images: [
+      {
+        url: '/touch.png', // You can use your apple touch icon, or a larger custom image
+        width: 180,
+        height: 180,
+        alt: 'CESS UofK Logo',
+      },
+    ],
   },
 };
 
@@ -43,4 +53,3 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     </html>
   );
 }
-
