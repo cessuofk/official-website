@@ -133,10 +133,10 @@ export function AboutView({ onNavigate, cardCovers }: AboutViewProps) {
             {/* Photo slot */}
             {showPhotos && (
               <PlaceholderImage
-                label="SEATED GROUP PORTRAIT"
+                label=""
                 minHeight="24rem"
                 borderRadius="var(--radius-medium)"
-                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80"
+                src="/images/about.jpg"
                 alt="CESS UofK Seated Group Portrait"
               />
             )}

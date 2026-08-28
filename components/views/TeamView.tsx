@@ -11,22 +11,32 @@ interface TeamViewProps {
   cardCovers: 'Photo' | 'None';
 }
 
-type FilterCategory = 'All' | 'Executive' | 'Secretariat' | 'Council' | 'Honorary';
+type FilterCategory = 'All' | 'Leadership' | 'Executive' | 'Deputy' | 'Council' | 'Honorary';
 
 const CATEGORY_TONES: Record<string, BadgeTone> = {
-  Executive: 'fire',
-  Secretariat: 'info',
-  Council: 'warning',
+  Leadership: 'fire',
+  Executive: 'warning',
+  Deputy: 'info',
+  Council: 'neutral',
   Honorary: 'neutral',
 };
 
 const CATEGORY_LABELS: Record<FilterCategory, string> = {
   All: 'All Members',
-  Executive: 'Executive Bureau',
-  Secretariat: 'Secretariats',
+  Leadership: 'Leadership',
+  Executive: 'Executive Office',
+  Deputy: 'Deputies',
   Council: 'Council Members',
   Honorary: 'Honorary Members',
 };
+
+const SECTION_ORDER: Exclude<FilterCategory, 'All'>[] = [
+  'Leadership',
+  'Executive',
+  'Deputy',
+  'Council',
+  'Honorary',
+];
 
 export function TeamView({ cardCovers }: TeamViewProps) {
   const showPhotos = cardCovers === 'Photo';
@@ -36,8 +46,9 @@ export function TeamView({ cardCovers }: TeamViewProps) {
   const filterCounts = useMemo(() => {
     const counts: Record<FilterCategory, number> = {
       All: BOARD_MEMBERS.length,
+      Leadership: BOARD_MEMBERS.filter((m) => m.category === 'Leadership').length,
       Executive: BOARD_MEMBERS.filter((m) => m.category === 'Executive').length,
-      Secretariat: BOARD_MEMBERS.filter((m) => m.category === 'Secretariat').length,
+      Deputy: BOARD_MEMBERS.filter((m) => m.category === 'Deputy').length,
       Council: BOARD_MEMBERS.filter((m) => m.category === 'Council').length,
       Honorary: BOARD_MEMBERS.filter((m) => m.category === 'Honorary').length,
     };
@@ -135,131 +146,33 @@ export function TeamView({ cardCovers }: TeamViewProps) {
               borderBottom: '1px solid var(--border)',
             }}
           >
-            <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '2rem',
-                  fontWeight: 'var(--weight-display)',
-                  lineHeight: 1,
-                  color: 'var(--foreground)',
-                }}
-              >
-                32
+            {(['All', 'Leadership', 'Executive', 'Council', 'Honorary'] as FilterCategory[]).map((cat) => (
+              <div key={cat}>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '2rem',
+                    fontWeight: 'var(--weight-display)',
+                    lineHeight: 1,
+                    color: 'var(--foreground)',
+                  }}
+                >
+                  {filterCounts[cat]}
+                </div>
+                <div
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '11px',
+                    color: 'var(--text-muted)',
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase',
+                    marginTop: 'var(--space-1)',
+                  }}
+                >
+                  {CATEGORY_LABELS[cat]}
+                </div>
               </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  color: 'var(--text-muted)',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  marginTop: 'var(--space-1)',
-                }}
-              >
-                Total Members
-              </div>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '2rem',
-                  fontWeight: 'var(--weight-display)',
-                  lineHeight: 1,
-                  color: 'var(--foreground)',
-                }}
-              >
-                5
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  color: 'var(--text-muted)',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  marginTop: 'var(--space-1)',
-                }}
-              >
-                Executive Bureau
-              </div>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '2rem',
-                  fontWeight: 'var(--weight-display)',
-                  lineHeight: 1,
-                  color: 'var(--foreground)',
-                }}
-              >
-                14
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  color: 'var(--text-muted)',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  marginTop: 'var(--space-1)',
-                }}
-              >
-                Secretariats
-              </div>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '2rem',
-                  fontWeight: 'var(--weight-display)',
-                  lineHeight: 1,
-                  color: 'var(--foreground)',
-                }}
-              >
-                2
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  color: 'var(--text-muted)',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  marginTop: 'var(--space-1)',
-                }}
-              >
-                Council Members
-              </div>
-            </div>
-            <div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '2rem',
-                  fontWeight: 'var(--weight-display)',
-                  lineHeight: 1,
-                  color: 'var(--foreground)',
-                }}
-              >
-                11
-              </div>
-              <div
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  color: 'var(--text-muted)',
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  marginTop: 'var(--space-1)',
-                }}
-              >
-                Honorary Members
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* Filter Bar & Search */}
@@ -282,7 +195,7 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                 gap: 'var(--space-2)',
               }}
             >
-              {(['All', 'Executive', 'Secretariat', 'Council', 'Honorary'] as FilterCategory[]).map(
+              {(['All', ...SECTION_ORDER] as FilterCategory[]).map(
                 (category) => (
                   <Tag
                     key={category}
@@ -397,165 +310,192 @@ export function TeamView({ cardCovers }: TeamViewProps) {
               </button>
             </div>
           ) : (
-            <div
-              id="board-members-grid"
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 18rem), 1fr))',
-                gap: 'var(--gutter)',
-              }}
-            >
-              {filteredMembers.map((member) => {
-                const formattedId = member.id < 10 ? `0${member.id}` : `${member.id}`;
-                const tone = CATEGORY_TONES[member.category] || 'neutral';
-                const initials = getInitials(member.name);
+            <div id="board-members-grid">
+              {SECTION_ORDER.map((groupCategory) => {
+                const groupMembers = filteredMembers.filter(m => m.category === groupCategory);
+                if (groupMembers.length === 0) return null;
 
                 return (
-                  <div
-                    key={member.id}
-                    id={`board-member-card-${member.id}`}
-                    style={{
-                      background: 'var(--background)',
-                      border: '1px solid var(--border)',
-                      borderRadius: 'var(--radius-medium)',
-                      overflow: 'hidden',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      transition: 'border-color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease)',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = 'var(--fire-orange)';
-                      e.currentTarget.style.boxShadow = 'var(--shadow-elevated)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = 'var(--border)';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  >
-                    {showPhotos && (
-                      <div
-                        style={{
-                          height: '20rem',
-                          background: 'var(--surface)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          position: 'relative',
-                          borderBottom: '1px solid var(--border)',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {member.image ? (
-                          <PlaceholderImage
-                            label={`MEMBER ${formattedId}`}
-                            src={member.image}
-                            alt={member.name}
-                            height="100%"
-                            showLabelBadge={false}
-                            style={{ width: '100%', objectFit: 'cover', objectPosition: 'top' }}
-                          />
-                        ) : (
-                          <div
-                            style={{
-                              width: '4rem',
-                              height: '4rem',
-                              borderRadius: 'var(--radius-small)',
-                              background: 'var(--paper)',
-                              border: '1px solid var(--border)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontFamily: 'var(--font-display)',
-                              fontWeight: 'var(--weight-display)',
-                              fontSize: '1.25rem',
-                              color: 'var(--foreground)',
-                              letterSpacing: '0.04em',
-                            }}
-                          >
-                            {initials}
-                          </div>
-                        )}
-                      </div>
-                    )}
+                  <div key={groupCategory} style={{ marginBottom: 'var(--space-12)' }}>
+                    
+                    {/* Visual Section Header/Divider */}
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 'var(--space-6)' }}>
+                       <h3 style={{ 
+                         fontFamily: 'var(--font-mono)', 
+                         fontSize: '0.85rem', 
+                         color: 'var(--text-muted)', 
+                         textTransform: 'uppercase', 
+                         letterSpacing: '0.1em',
+                         margin: '0 var(--space-4) 0 0',
+                         whiteSpace: 'nowrap'
+                       }}>
+                         {CATEGORY_LABELS[groupCategory]}
+                       </h3>
+                       <div style={{ height: '1px', background: 'var(--border)', flex: 1 }}></div>
+                    </div>
 
                     <div
                       style={{
-                        padding: 'var(--space-6)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        flex: 1,
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 18rem), 1fr))',
+                        gap: 'var(--gutter)',
                       }}
                     >
-                      {/* Top Meta Line: ID & Category Badge */}
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          marginBottom: 'var(--space-3)',
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '12px',
-                            color: 'var(--text-muted)',
-                            letterSpacing: '0.06em',
-                          }}
-                        >
-                          MEMBER {formattedId}
-                        </span>
-                        <div style={{ display: 'flex' }}>
-                          <Badge tone={tone}>{member.category}</Badge>
-                        </div>
-                      </div>
+                      {groupMembers.map((member) => {
+                        const formattedId = member.id < 10 ? `0${member.id}` : `${member.id}`;
+                        const tone = CATEGORY_TONES[member.category] || 'neutral';
+                        const initials = getInitials(member.name);
 
-                      {/* Member Name */}
-                      <h2
-                        style={{
-                          fontFamily: 'var(--font-headline)',
-                          fontWeight: 'var(--weight-headline)',
-                          fontSize: '1.25rem',
-                          lineHeight: 'var(--leading-tight)',
-                          margin: '0 0 var(--space-1) 0',
-                          color: 'var(--foreground)',
-                        }}
-                      >
-                        {member.name}
-                      </h2>
+                        return (
+                          <div
+                            key={member.id}
+                            id={`board-member-card-${member.id}`}
+                            style={{
+                              background: 'var(--background)',
+                              border: '1px solid var(--border)',
+                              borderRadius: 'var(--radius-medium)',
+                              overflow: 'hidden',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              transition: 'border-color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease)',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = 'var(--fire-orange)';
+                              e.currentTarget.style.boxShadow = 'var(--shadow-elevated)';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = 'var(--border)';
+                              e.currentTarget.style.boxShadow = 'none';
+                            }}
+                          >
+                            {showPhotos && (
+                              <div
+                                style={{
+                                  height: '24rem',
+                                  background: 'var(--surface)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  position: 'relative',
+                                  borderBottom: '1px solid var(--border)',
+                                  overflow: 'hidden',
+                                }}
+                              >
+                                {member.image ? (
+                                  <PlaceholderImage
+                                    label={`MEMBER ${formattedId}`}
+                                    src={member.image}
+                                    alt={member.name}
+                                    height="100%"
+                                    showLabelBadge={false}
+                                    style={{ width: '100%', objectFit: 'cover', objectPosition: 'top' }}
+                                  />
+                                ) : (
+                                  <div
+                                    style={{
+                                      width: '4rem',
+                                      height: '4rem',
+                                      borderRadius: 'var(--radius-small)',
+                                      background: 'var(--paper)',
+                                      border: '1px solid var(--border)',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      fontFamily: 'var(--font-display)',
+                                      fontWeight: 'var(--weight-display)',
+                                      fontSize: '1.25rem',
+                                      color: 'var(--foreground)',
+                                      letterSpacing: '0.04em',
+                                    }}
+                                  >
+                                    {initials}
+                                  </div>
+                                )}
+                              </div>
+                            )}
 
-                      {/* Member Role */}
-                      <div
-                        style={{
-                          fontFamily: 'var(--font-label)',
-                          fontWeight: 'var(--weight-label)',
-                          fontSize: 'var(--text-body-small)',
-                          color:
-                            member.role === 'President' ||
-                            member.role === 'Vice President' ||
-                            member.role === 'Secretary-General'
-                              ? 'var(--fire-orange)'
-                              : 'var(--foreground)',
-                          marginBottom: member.scope ? 'var(--space-3)' : 0,
-                        }}
-                      >
-                        {member.role}
-                      </div>
+                            <div
+                              style={{
+                                padding: 'var(--space-6)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                flex: 1,
+                              }}
+                            >
+                              {/* Top Meta Line: ID & Category Badge */}
+                              <div
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  marginBottom: 'var(--space-3)',
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    fontFamily: 'var(--font-mono)',
+                                    fontSize: '12px',
+                                    color: 'var(--text-muted)',
+                                    letterSpacing: '0.06em',
+                                  }}
+                                >
+                                  MEMBER {formattedId}
+                                </span>
+                                <div style={{ display: 'flex' }}>
+                                  <Badge tone={tone}>{CATEGORY_LABELS[member.category as FilterCategory]}</Badge>
+                                </div>
+                              </div>
 
-                      {/* Scope Description */}
-                      {member.scope && (
-                        <p
-                          style={{
-                            fontSize: 'var(--text-body-small)',
-                            color: 'var(--text-muted)',
-                            lineHeight: 1.5,
-                            margin: 0,
-                            flex: 1,
-                          }}
-                        >
-                          {member.scope}
-                        </p>
-                      )}
+                              {/* Member Name */}
+                              <h2
+                                style={{
+                                  fontFamily: 'var(--font-headline)',
+                                  fontWeight: 'var(--weight-headline)',
+                                  fontSize: '1.25rem',
+                                  lineHeight: 'var(--leading-tight)',
+                                  margin: '0 0 var(--space-1) 0',
+                                  color: 'var(--foreground)',
+                                }}
+                              >
+                                {member.name}
+                              </h2>
+
+                              {/* Member Role */}
+                              <div
+                                style={{
+                                  fontFamily: 'var(--font-label)',
+                                  fontWeight: 'var(--weight-label)',
+                                  fontSize: 'var(--text-body-small)',
+                                  color:
+                                    member.role === 'President' ||
+                                    member.role === 'Vice President' ||
+                                    member.role === 'Secretary-General'
+                                      ? 'var(--fire-orange)'
+                                      : 'var(--foreground)',
+                                  marginBottom: member.scope ? 'var(--space-3)' : 0,
+                                }}
+                              >
+                                {member.role}
+                              </div>
+
+                              {/* Scope Description */}
+                              {member.scope && (
+                                <p
+                                  style={{
+                                    fontSize: 'var(--text-body-small)',
+                                    color: 'var(--text-muted)',
+                                    lineHeight: 1.5,
+                                    margin: 0,
+                                    flex: 1,
+                                  }}
+                                >
+                                  {member.scope}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 );
@@ -567,4 +507,3 @@ export function TeamView({ cardCovers }: TeamViewProps) {
     </div>
   );
 }
-

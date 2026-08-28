@@ -26,6 +26,9 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
           color: 'var(--paper)',
           position: 'relative',
           overflow: 'hidden',
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
         {/* Absolute image slot on right */}
@@ -61,6 +64,7 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
         {/* Text container */}
         <div
           style={{
+            width: '100%',
             maxWidth: 'var(--max-width)',
             margin: '0 auto',
             padding: '0 var(--pad-x)',
@@ -74,8 +78,11 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              maxWidth: 'min(100%, 46rem)',
+              // Dynamically limit width to prevent collision with the absolute image slot on mid-sized screens
+              maxWidth: 'min(calc(100% - var(--hero-photo)), 46rem)',
               padding: 'var(--sec-y) 0',
+              // Proportional padding that creates a gap on desktop (46% / 10 = 4.6%), but drops to 0 on mobile
+              paddingRight: 'calc(var(--hero-photo) / 10)',
             }}
           >
             <div
@@ -329,6 +336,7 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
                 id={`home-dept-card-${dept.slug}`}
                 onClick={() => onNavigate('department', dept.slug)}
                 style={{
+                  height: '100%',
                   appearance: 'none',
                   font: 'inherit',
                   color: 'inherit',
@@ -655,6 +663,7 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
                   id={`featured-event-card-${evt.slug}`}
                   onClick={() => onNavigate('event', evt.slug)}
                   style={{
+                    height: '100%',
                     appearance: 'none',
                     font: 'inherit',
                     color: 'inherit',
@@ -764,7 +773,7 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
         </div>
       </section>
 
-      {/* 6. FEATURED PROJECTS (Surface background) */}
+      {/* 6. FEATURE PROJECTS (Surface background) */}
       <section
         id="featured-projects-section"
         style={{
@@ -845,6 +854,7 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
                   id={`featured-proj-card-${proj.slug}`}
                   onClick={() => onNavigate('project', proj.slug)}
                   style={{
+                    height: '100%',
                     appearance: 'none',
                     font: 'inherit',
                     color: 'inherit',
