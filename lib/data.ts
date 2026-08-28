@@ -607,7 +607,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     id: 14,
     name: 'Mâab Salah',
     role: 'Financial Secretary',
-    category: 'Executive',
+    category: 'Leadership',
     department: 'Finance',
     scope: 'Financial planning, budgetary oversight, sponsorship accounting, and resource allocation.',
   },
