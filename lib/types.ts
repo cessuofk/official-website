@@ -96,7 +96,7 @@ export interface BoardMember {
   id: number;
   name: string;
   role: string;
-  category: 'Executive' | 'Secretariat' | 'Council' | 'Honorary';
+  category: 'Leadership' | 'Executive' | 'Deputy' | 'Council' | 'Honorary';
   department?: string;
   scope?: string;
   image?: string;
