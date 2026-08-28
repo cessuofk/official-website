@@ -583,7 +583,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     category: 'Deputy',
     department: 'Technical',
     scope: 'Engineering toolkit resources, computing sessions, and technical workflow guidance.',
-    image: '/images/board/banomar.jpg',
+    image: '/images/board/ban.jpg',
   },
   {
     id: 12,
