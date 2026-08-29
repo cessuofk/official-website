@@ -142,7 +142,7 @@ export const EVENTS: EventItem[] = [
     location: 'Prof. Al-Turabi Conference Hall & Central Campus, University of Khartoum',
     department: 'Academic',
     deptSlug: 'academic',
-    status: 'Closed',
+    status: 'Open',
     summary: 'The 3rd biennial flagship conference and exhibitions week organized by CESS students with departmental professors, featuring 50 student engineering projects, 15 specialized lectures, and an official ministerial opening in Prof. Al-Turabi Hall with 500+ attendees.',
     content: [
       'The 3rd edition of the Civil Engineering Students Society conference and exhibitions week ("CESSCON’3") is a flagship biennial gathering organized inside the Department of Civil Engineering on the central campus of the University of Khartoum. The conference is planned and executed by student committees under the direct guidance of department professors, doctors, and lecturers.',
