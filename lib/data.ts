@@ -269,9 +269,9 @@ export const PROJECTS: ProjectItem[] = [
     department: 'Academic',
     deptSlug: 'academic',
     status: 'Active',
-    startDate: 'Jan 2025',
+    startDate: 'Jan 2026',
     endDate: 'Sep 2026',
-    dateRange: 'Jan 2025 – Present (Phase 2 underway)',
+    dateRange: 'Jan 2026 – Present (Phase 2 underway)',
     summary: 'A comprehensive educational program redefining the engineering learning experience from passive information reception to a complete professional career path, integrating technical skills, soft skills, and AI across Curated and Exclusive tracks.',
     content: [
       'Course HUB is an integrated educational program aiming to reshape the engineering learning journey, moving from mere "information reception" to "building a complete professional career pathway". It aggregates all educational tools in one platform organized into clear tracks connecting technical engineering competencies, soft skills, and artificial intelligence.',
