@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     description: 'Civil Engineering Students Society — University of Khartoum. Non-profit, student-run society.',
     url: 'https://www.cessuofk.site',
     siteName: 'CESS UofK',
+    locale: 'en_US', // Fixes the missing og:locale warning
     type: 'website',
     images: [
       {
