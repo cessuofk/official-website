@@ -320,9 +320,9 @@ export const PROJECTS: ProjectItem[] = [
     department: 'Academic',
     deptSlug: 'academic',
     status: 'Active',
-    startDate: 'Oct 2023',
+    startDate: 'Oct 2026',
     endDate: 'Ongoing',
-    dateRange: 'Oct 2023 – Present',
+    dateRange: 'Oct 2026 – Present',
     summary: 'A curated, multi-year repository of past examination papers, laboratory manuals, lecture slide decks, and solved tutorials across all study years.',
     content: [
       'The Undergraduate Academic Resource Archive is a continuous initiative by the Academic Section to compile, digitize, and categorize educational materials for every civil engineering subject.',
