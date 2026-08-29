@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     // Add this images array for link previews:
     images: [
       {
-        url: '/touch.png', // You can use your apple touch icon, or a larger custom image
+        url: '/images/touch.jpg', // You can use your apple touch icon, or a larger custom image
         width: 180,
         height: 180,
         alt: 'CESS UofK Logo',
