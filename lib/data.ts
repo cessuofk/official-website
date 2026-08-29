@@ -9,11 +9,11 @@ export const SOCIETY_INFO = {
   phones: ['0117614433', '0913068350'],
   address: 'Department of Civil Engineering, Faculty of Engineering, University of Khartoum, Khartoum, Sudan',
   socialLinks: [
-    { name: 'Facebook', url: '#' },
-    { name: 'Instagram', url: '#' },
+    { name: 'Facebook', url: 'https://www.facebook.com/cessuofk' },
+    { name: 'Instagram', url: 'https://www.instagram.com/iaces_khartoum/' },
     { name: 'Twitter', url: '#' },
     { name: 'Telegram', url: '#' },
-    { name: 'LinkedIn', url: '#' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/company/cess-uofk/' },
   ],
   mission:
     'Studying the current state of the university experience and comparing it with peer experiences in developed countries, and then trying to bridge the gap between the two by identifying deficiencies and working to provide solutions and maintaining them over the long term.',
@@ -142,7 +142,7 @@ export const EVENTS: EventItem[] = [
     location: 'Prof. Al-Turabi Conference Hall & Central Campus, University of Khartoum',
     department: 'Academic',
     deptSlug: 'academic',
-    status: 'Open',
+    status: 'Closed',
     summary: 'The 3rd biennial flagship conference and exhibitions week organized by CESS students with departmental professors, featuring 50 student engineering projects, 15 specialized lectures, and an official ministerial opening in Prof. Al-Turabi Hall with 500+ attendees.',
     content: [
       'The 3rd edition of the Civil Engineering Students Society conference and exhibitions week ("CESSCON’3") is a flagship biennial gathering organized inside the Department of Civil Engineering on the central campus of the University of Khartoum. The conference is planned and executed by student committees under the direct guidance of department professors, doctors, and lecturers.',
@@ -168,7 +168,7 @@ export const EVENTS: EventItem[] = [
     location: 'Materials & Structural Testing Laboratories, Faculty of Engineering',
     department: 'Professional practice',
     deptSlug: 'professional-practice',
-    status: 'Closed',
+    status: 'Open',
     summary: 'The Khartoum local committee edition of the prestigious IACES International Civil Engineering Competition, engaging 16 student teams across structural bridge model loading and advanced material mix design stages.',
     content: [
       'The International Civil Engineering Competition (ICEC) is a worldwide event organized by the International Association of Civil Engineering Students (IACES). Civil engineering students from across the globe compete in academic teams representing their home countries. The purpose is to foster international connection and technical excellence among future engineers.',
@@ -654,7 +654,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     category: 'Executive',
     department: 'Sports',
     scope: 'Inter-departmental sporting tournaments, faculty leagues, and student athletic events.',
-    image: '/images/board/ashrf.jpg',
+    image: '/images/board/Ashrf.jpg',
   },
   {
     id: 20,
