@@ -77,7 +77,7 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
     const sheetEventName = event.name; 
     
     // Make sure to replace this with the NEW deployment URL if it changed
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLh4PxeEvAKjQACqlhaV4FFA9eYNhw5rZEGMqSMIVXwMGjd17u5_kutdYayi793CIO/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbym2tPs1v1Sa_nzxv2kRcELuJvz03jIVZpRx1imS7GyA2szkImK3DSpX3XvEy6vIWIGqA/exec';
 
     try {
       // Added mode: 'no-cors' to bypass browser blocking
