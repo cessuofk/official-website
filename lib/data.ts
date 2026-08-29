@@ -168,7 +168,7 @@ export const EVENTS: EventItem[] = [
     location: 'Materials & Structural Testing Laboratories, Faculty of Engineering',
     department: 'Professional practice',
     deptSlug: 'professional-practice',
-    status: 'Open',
+    status: 'Closed',
     summary: 'The Khartoum local committee edition of the prestigious IACES International Civil Engineering Competition, engaging 16 student teams across structural bridge model loading and advanced material mix design stages.',
     content: [
       'The International Civil Engineering Competition (ICEC) is a worldwide event organized by the International Association of Civil Engineering Students (IACES). Civil engineering students from across the globe compete in academic teams representing their home countries. The purpose is to foster international connection and technical excellence among future engineers.',
