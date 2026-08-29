@@ -21,7 +21,11 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
+  
+  // New state variables for the async submission process
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [passCode, setPassCode] = useState('');
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -66,10 +70,45 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      setSubmitted(true);
+    
+    // Ensure form is valid before triggering the fetch request
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    
+    // Fixed: Using event.name to match the EventItem interface
+    const sheetEventName = event.name; 
+    
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxLh4PxeEvAKjQACqlhaV4FFA9eYNhw5rZEGMqSMIVXwMGjd17u5_kutdYayi793CIO/exec';
+
+    try {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify({
+          eventName: sheetEventName,
+          formData: formData,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      // Fixed: Wrapped the template literal in backticks
+      setPassCode(`CESS-DEL-${Math.floor(100000 + Math.random() * 900000)}`);
+      setIsSuccess(true);
+    } catch (error) {
+      console.error('Registration failed:', error);
+      alert('حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -149,7 +188,7 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
           </p>
         </div>
 
-        {submitted ? (
+        {isSuccess ? (
           /* Confirmation Success State */
           <div
             id="registration-success-view"
@@ -194,6 +233,13 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
             <p style={{ margin: 0, fontSize: 'var(--text-body-small)', color: '#0F5C2B', lineHeight: 1.5 }}>
               Thank you, <strong>{formData.firstName} {formData.lastName}</strong>. Your registration for <em>{event.name}</em> has been recorded for <strong>{formData.university}</strong> (Index: {formData.studentId}).
             </p>
+            
+            <div style={{ padding: 'var(--space-3)', background: 'rgba(255,255,255,0.5)', borderRadius: 'var(--radius-small)', border: '1px dashed #0F5C2B' }}>
+              <p style={{ margin: 0, fontSize: 'var(--text-body-small)', color: '#0F5C2B', fontWeight: 'bold' }}>
+                Your Passcode: {passCode}
+              </p>
+            </div>
+
             <p style={{ margin: 0, fontSize: 'var(--text-body-small)', color: '#0F5C2B', lineHeight: 1.5 }}>
               Confirmation and preparation details will be dispatched to <strong>{formData.email}</strong> prior to {event.date}.
             </p>
@@ -223,6 +269,7 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   style={inputStyle(!!errors.firstName)}
                   placeholder="First name"
+                  disabled={isSubmitting}
                 />
               </Field>
 
@@ -234,6 +281,7 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   style={inputStyle(!!errors.lastName)}
                   placeholder="Last name"
+                  disabled={isSubmitting}
                 />
               </Field>
             </div>
@@ -247,6 +295,7 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 style={inputStyle(!!errors.email)}
                 placeholder="e.g. student@uofk.edu"
+                disabled={isSubmitting}
               />
             </Field>
 
@@ -258,6 +307,7 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
                 value={formData.university}
                 onChange={(e) => setFormData({ ...formData, university: e.target.value })}
                 style={inputStyle(!!errors.university)}
+                disabled={isSubmitting}
               />
             </Field>
 
@@ -277,6 +327,7 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
                   onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
                   style={inputStyle(!!errors.studentId)}
                   placeholder="e.g. 19-CE-042"
+                  disabled={isSubmitting}
                 />
               </Field>
 
@@ -288,6 +339,7 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   style={inputStyle(!!errors.phone)}
                   placeholder="e.g. 0912345678"
+                  disabled={isSubmitting}
                 />
               </Field>
             </div>
@@ -301,11 +353,11 @@ export function RegistrationDialog({ event, isOpen, onClose }: RegistrationDialo
                 marginTop: 'var(--space-4)',
               }}
             >
-              <Button type="button" variant="secondary" onClick={onClose} id="reg-cancel-btn">
+              <Button type="button" variant="secondary" onClick={onClose} id="reg-cancel-btn" disabled={isSubmitting}>
                 Cancel
               </Button>
-              <Button type="submit" variant="fire" id="reg-submit-btn">
-                Submit Registration
+              <Button type="submit" variant="fire" id="reg-submit-btn" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Submit Registration'}
               </Button>
             </div>
           </form>
