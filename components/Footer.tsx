@@ -66,7 +66,7 @@ export function Footer({ onNavigate }: FooterProps) {
             <div>
               <img
                 // Note: Update this to your dark-text logo file since the background is now light
-                src="/cess-lockup-dark.png" 
+                src="/cess-lockup-white.png" 
                 alt="Civil Engineering Students Society — University of Khartoum"
                 style={{
                   height: '48px',
