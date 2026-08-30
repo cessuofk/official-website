@@ -362,7 +362,7 @@ export const BLOGS: BlogItem[] = [
     '• Blog Title & Content (You can either attach a document or paste the text directly)'
   ],
   slotLabel: 'ANNOUNCEMENT — CALL FOR SUBMISSIONS',
-  image: 'images/Blogs/blog1 (1).png"',
+  image: '/images/Blogs/Submit.png',
   },
   {
     slug: 'iaces-exchange-notes',
