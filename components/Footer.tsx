@@ -31,18 +31,25 @@ export function Footer({ onNavigate }: FooterProps) {
     <footer
       id="main-footer"
       style={{
-        background: 'var(--ink)',
-        color: 'var(--paper)',
-        paddingTop: 'var(--space-16)',
+        background: 'var(--surface)',
+        color: 'var(--ink)',
         paddingBottom: 'var(--space-8)',
-        borderTop: '1px solid var(--border-inverse)',
       }}
     >
+      {/* Decorative gradient bar to maintain the "reddish" site personality */}
+      <div 
+        style={{ 
+          height: '6px', 
+          width: '100%', 
+          background: 'var(--titan-fire-gradient)' 
+        }} 
+      />
+
       <div
         style={{
           maxWidth: 'var(--max-width)',
           margin: '0 auto',
-          padding: '0 var(--pad-x)',
+          padding: 'var(--space-16) var(--pad-x) 0',
         }}
       >
         {/* 4-column main footer grid */}
@@ -58,7 +65,8 @@ export function Footer({ onNavigate }: FooterProps) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div>
               <img
-                src="/cess-lockup-white.png"
+                // Note: Update this to your dark-text logo file since the background is now light
+                src="/cess-lockup-dark.png" 
                 alt="Civil Engineering Students Society — University of Khartoum"
                 style={{
                   height: '48px',
@@ -78,7 +86,7 @@ export function Footer({ onNavigate }: FooterProps) {
                 fontSize: '1.75rem',
                 letterSpacing: '-0.03em',
                 lineHeight: 1.1,
-                color: 'var(--paper)',
+                color: 'var(--ink)',
                 marginTop: 'var(--space-4)',
               }}
             >
@@ -88,7 +96,7 @@ export function Footer({ onNavigate }: FooterProps) {
             <p
               style={{
                 fontSize: 'var(--text-body-small)',
-                color: 'var(--gray-300)',
+                color: 'var(--text-muted)',
                 lineHeight: 1.6,
                 maxWidth: '34ch',
                 margin: 0,
@@ -107,7 +115,7 @@ export function Footer({ onNavigate }: FooterProps) {
                 fontWeight: 'var(--weight-label)',
                 letterSpacing: 'var(--tracking-eyebrow)',
                 textTransform: 'uppercase',
-                color: 'var(--gray-300)',
+                color: 'var(--gray-700)',
                 margin: '0 0 var(--space-4) 0',
               }}
             >
@@ -130,13 +138,13 @@ export function Footer({ onNavigate }: FooterProps) {
                     textAlign: 'left',
                     fontFamily: 'var(--font-body)',
                     fontSize: 'var(--text-body-small)',
-                    color: 'var(--gray-300)',
+                    color: 'var(--text-muted)',
                     display: 'flex',
                     alignItems: 'center',
                     transition: 'color var(--dur-fast) var(--ease)',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--paper)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--gray-300)')}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fire-orange)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
                 >
                   {link.label}
                 </button>
@@ -153,7 +161,7 @@ export function Footer({ onNavigate }: FooterProps) {
                 fontWeight: 'var(--weight-label)',
                 letterSpacing: 'var(--tracking-eyebrow)',
                 textTransform: 'uppercase',
-                color: 'var(--gray-300)',
+                color: 'var(--gray-700)',
                 margin: '0 0 var(--space-4) 0',
               }}
             >
@@ -175,7 +183,7 @@ export function Footer({ onNavigate }: FooterProps) {
                     style={{
                       fontFamily: 'var(--font-body)',
                       fontSize: 'var(--text-body-small)',
-                      color: 'var(--gray-300)',
+                      color: 'var(--text-muted)',
                       lineHeight: 1.4,
                     }}
                   >
@@ -195,7 +203,7 @@ export function Footer({ onNavigate }: FooterProps) {
                 fontWeight: 'var(--weight-label)',
                 letterSpacing: 'var(--tracking-eyebrow)',
                 textTransform: 'uppercase',
-                color: 'var(--gray-300)',
+                color: 'var(--gray-700)',
                 margin: '0 0 var(--space-4) 0',
               }}
             >
@@ -211,12 +219,12 @@ export function Footer({ onNavigate }: FooterProps) {
                   alignItems: 'center',
                   fontFamily: 'var(--font-body)',
                   fontSize: 'var(--text-body-small)',
-                  color: 'var(--gray-300)',
+                  color: 'var(--text-muted)',
                   textDecoration: 'none',
                   transition: 'color var(--dur-fast) var(--ease)',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--paper)')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--gray-300)')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fire-orange)')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
               >
                 {SOCIETY_INFO.email}
               </a>
@@ -232,12 +240,12 @@ export function Footer({ onNavigate }: FooterProps) {
                     alignItems: 'center',
                     fontFamily: 'var(--font-body)',
                     fontSize: 'var(--text-body-small)',
-                    color: 'var(--gray-300)',
+                    color: 'var(--text-muted)',
                     textDecoration: 'none',
                     transition: 'color var(--dur-fast) var(--ease)',
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--paper)')}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--gray-300)')}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fire-orange)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
                 >
                   {phone}
                 </a>
@@ -255,7 +263,7 @@ export function Footer({ onNavigate }: FooterProps) {
                   style={{
                     fontFamily: 'var(--font-body)',
                     fontSize: 'var(--text-body-small)',
-                    color: 'var(--gray-300)',
+                    color: 'var(--text-muted)',
                     lineHeight: 1.4,
                   }}
                 >
@@ -271,7 +279,7 @@ export function Footer({ onNavigate }: FooterProps) {
           style={{
             marginTop: 'var(--space-12)',
             paddingTop: 'var(--space-6)',
-            borderTop: '1px solid var(--border-inverse)',
+            borderTop: '1px solid var(--border)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -283,7 +291,7 @@ export function Footer({ onNavigate }: FooterProps) {
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '12px',
-              color: 'var(--gray-300)',
+              color: 'var(--gray-500)',
             }}
           >
             © 2013–2026 CESS UofK. Established 2013.
@@ -292,7 +300,7 @@ export function Footer({ onNavigate }: FooterProps) {
             style={{
               fontFamily: 'var(--font-mono)',
               fontSize: '12px',
-              color: 'var(--gray-300)',
+              color: 'var(--gray-500)',
               letterSpacing: '0.04em',
             }}
           >
