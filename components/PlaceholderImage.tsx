@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 interface PlaceholderImageProps {
   label: string;
@@ -32,7 +32,9 @@ export function PlaceholderImage({
   showLabelBadge = true,
 }: PlaceholderImageProps) {
   const isInk = theme === 'ink';
-  const [imgError, setImgError] = React.useState(false);
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+
+  const hasFailed = Boolean(src && failedSrc === src);
 
   const containerStyle: React.CSSProperties = {
     background: isInk ? 'var(--charcoal)' : 'var(--gray-100)',
@@ -40,7 +42,7 @@ export function PlaceholderImage({
     borderRadius,
     display: 'flex',
     alignItems: 'flex-end',
-    padding: src && !imgError ? 0 : 'var(--space-4)',
+    padding: src && !hasFailed ? 0 : 'var(--space-4)',
     width,
     height: height ? height : undefined,
     minHeight: minHeight ? minHeight : undefined,
@@ -62,49 +64,26 @@ export function PlaceholderImage({
     zIndex: 1,
   };
 
-  if (src && !imgError) {
+  if (src && !hasFailed) {
     return (
       <div id={id} style={containerStyle} className={className}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
+          key={src}
           src={src}
           alt={alt || label}
           loading="lazy"
+          decoding="async"
           referrerPolicy="no-referrer"
-          onError={() => setImgError(true)}
+          onError={() => setFailedSrc(src)}
           style={{
             width: '100%',
             height: '100%',
             objectFit: 'cover',
             display: 'block',
+            opacity: 1,
           }}
         />
-        {showLabelBadge && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              padding: 'var(--space-2) var(--space-3)',
-              background: 'linear-gradient(to top, rgba(17,17,17,0.75), transparent)',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '11px',
-                color: 'var(--paper)',
-                letterSpacing: '0.05em',
-                textTransform: 'uppercase',
-              }}
-            >
-              {label}
-            </span>
-          </div>
-        )}
       </div>
     );
   }
@@ -115,3 +94,4 @@ export function PlaceholderImage({
     </div>
   );
 }
+

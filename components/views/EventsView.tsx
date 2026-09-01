@@ -164,7 +164,7 @@ export function EventsView({ onNavigate, cardCovers }: EventsViewProps) {
                   {showPhotos && (
                     <PlaceholderImage
                       label={evt.slotLabel}
-                      height="190px"
+                      height="230px"
                       src={evt.image}
                       alt={evt.name}
                     />

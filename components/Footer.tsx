@@ -68,6 +68,8 @@ export function Footer({ onNavigate }: FooterProps) {
                 // Note: Update this to your dark-text logo file since the background is now light
                 src="/cess-lockup-white.png" 
                 alt="Civil Engineering Students Society — University of Khartoum"
+                loading="eager"
+                decoding="sync"
                 style={{
                   height: '48px',
                   width: 'auto',

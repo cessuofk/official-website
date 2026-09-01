@@ -100,8 +100,8 @@ export const DEPARTMENTS: Department[] = [
     image: '/images/Departments/practical.jpg',
   },
   {
-    slug: 'social-cultural',
-    name: 'Social and cultural',
+    slug: 'cultural',
+    name: 'Cultural',
     description: 'Events, expeditions, conferences and the cultural life of the department.',
     objectives: [
       'Host the annual civil engineering student conference and technical seminars.',
@@ -245,7 +245,7 @@ export const EVENTS: EventItem[] = [
     location: 'Higher Education Hall, Faculty of Engineering',
     department: 'Academic',
     deptSlug: 'academic',
-    status: 'Closed',
+    status: 'Open',
     summary: 'Interactive forum led by Eng. Aseel Mulla and student batch representatives exploring curriculum modernisation, soft skills cultivation, and engineering career readiness.',
     content: [
       'Focused on student empowerment and institutional dialogue, this forum examined methods for refining academic delivery, improving laboratory access, and integrating practical software tools into civil engineering coursework.',
@@ -347,7 +347,7 @@ export const BLOGS: BlogItem[] = [
   title: 'Submit Your Work 📝: Call for Academic Blogs',
   department: 'General Secretariat',
   deptSlug: 'general-secretariat',
-  author: 'MohammedelHabib Khalid',
+  author: 'General Secretariat',
   date: '30 Aug 2026',
   summary: 'Want to publish your academic blog? We are offering students the opportunity to showcase their research and writing on the official CESS portal.',
   content: [
@@ -370,7 +370,7 @@ export const BLOGS: BlogItem[] = [
     title: 'Navigating International Student Exchanges as a Khartoum Civil Engineer',
     department: 'Professional practice',
     deptSlug: 'professional-practice',
-    author: 'Executive Board · CESS',
+    author: 'Academic Committee · CESS',
     date: '18 Aug 2026',
     summary: 'Practical notes on preparing competitive application statements, technical portfolios, and English language credentials for IACES exchange programs.',
     content: [
@@ -404,7 +404,7 @@ export const BLOGS: BlogItem[] = [
     title: 'Highlights from the Annual Civil Engineering Conference Planning',
     department: 'Social and cultural',
     deptSlug: 'social-cultural',
-    author: 'Organizing Committee · CESS',
+    author: 'Academic Committee · CESS',
     date: '28 Jul 2026',
     summary: 'Overview of selected keynote themes, undergraduate research panels, and logistical preparations for our upcoming departmental conference.',
     content: [
@@ -420,7 +420,7 @@ export const BLOGS: BlogItem[] = [
     title: 'Understanding Academic Councils and Student Representation',
     department: 'Academic',
     deptSlug: 'academic',
-    author: 'Student Representatives · CESS',
+    author: 'Academic Committee · CESS',
     date: '15 Jul 2026',
     summary: 'Why academic councils matter for curriculum feedback, exam scheduling, and long-term departmental dialogue.',
     content: [

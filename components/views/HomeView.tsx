@@ -690,7 +690,7 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
                   {showPhotos && (
                     <PlaceholderImage
                       label={evt.slotLabel}
-                      height="200px"
+                      height="230px"
                       src={evt.image}
                       alt={evt.name}
                     />

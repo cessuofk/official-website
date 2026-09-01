@@ -135,6 +135,8 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
           <img
             src={inkRoute ? '/cess-nav-white.png' : '/cess-nav-ink.png'}
             alt="CESS UofK"
+            loading="eager"
+            decoding="sync"
             style={{
               height: '36px',
               width: 'auto',
