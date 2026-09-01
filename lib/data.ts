@@ -911,7 +911,7 @@ export const WEBSITE_CREDIT_MEMBERS: WebsiteCreditMember[] = [
     image: '',
   },
   {
-    id: 'drafter',
+    id: 'drafter-israa',
     name: 'Israa Ibrahim',
     role: 'Drafter & Content Strategist',
     category: 'Content & Drafting',
@@ -921,11 +921,11 @@ export const WEBSITE_CREDIT_MEMBERS: WebsiteCreditMember[] = [
     image: '',
   },
   {
-    id: 'drafter',
+    id: 'drafter-abdelrhman',
     name: 'Abdelrhman Omar',
     role: 'Drafter & Content Strategist',
     category: 'Content & Drafting',
-    initials: 'II',
+    initials: 'AO',
     scope: 'Technical drafting, departmental content specifications, structural documentation, and editorial accuracy.',
     highlights: [],
     image: '',
