@@ -154,7 +154,12 @@ export function BlogsView({ onNavigate, cardCovers }: BlogsViewProps) {
                 }}
               >
                 {showPhotos && (
-                  <PlaceholderImage label={blog.slotLabel} height="180px" />
+                  <PlaceholderImage
+                    label={blog.slotLabel}
+                    height="190px"
+                    src={blog.image}
+                    alt={blog.title}
+                  />
                 )}
                 <div
                   style={{

@@ -98,6 +98,8 @@ export function BlogDetailView({ blog, onNavigate, cardCovers }: BlogDetailViewP
             <PlaceholderImage
               label={blog.slotLabel}
               height="clamp(18rem, 38vw, 30rem)"
+              src={blog.image}
+              alt={blog.title}
             />
           </div>
         </section>

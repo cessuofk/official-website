@@ -379,7 +379,7 @@ export const BLOGS: BlogItem[] = [
       'The Professional Practice section conducts open advisory hours each semester to review draft statements and assist candidates through every phase of the international application timeline.',
     ],
     slotLabel: 'STUDENT DELEGATION — IACES COMMITTEE',
-    image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80',
+    image: '',
   },
   {
     slug: 'reading-a-soil-report',
@@ -396,7 +396,7 @@ export const BLOGS: BlogItem[] = [
       'Finally, inspect the groundwater table logs. The depth of the perched or permanent water table directly influences lateral earth pressures on basement walls, effective stress calculations, and dewatering specifications during construction.',
     ],
     slotLabel: 'LABORATORY TESTING — ATTERBERG LIMITS',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+    image: '',
   },
   {
     slug: 'annual-conference-notes',
@@ -412,7 +412,7 @@ export const BLOGS: BlogItem[] = [
       'In addition to formal presentations, the conference floor will feature interactive exhibition booths from student clubs, software demonstration tables, and a dedicated career networking session connecting final-year students with practicing consulting engineers.',
     ],
     slotLabel: 'CONFERENCE PLANNING — COMMITTEE MEETING',
-    image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=1200&q=80',
+    image: '',
   },
   {
     slug: 'how-the-council-works',
@@ -429,7 +429,7 @@ export const BLOGS: BlogItem[] = [
       'Active student engagement in academic councils ensures that the civil engineering curriculum continues to evolve in response to the practical needs of the student body.',
     ],
     slotLabel: 'STUDENT FORUM — COUNCIL IN SESSION',
-    image: 'https://images.unsplash.com/photo-1531497865144-0464ef8fb9a9?auto=format&fit=crop&w=1200&q=80',
+    image: '',
   },
 ];
 
