@@ -853,3 +853,83 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/osman.jpg',
   },
 ];
+
+export interface WebsiteCreditMember {
+  id: string;
+  name: string;
+  role: string;
+  category: 'Project Management' | 'Design & UX' | 'Frontend Engineering' | 'Backend Engineering' | 'Content & Drafting';
+  scope: string;
+  initials: string;
+  highlights: string[];
+  email?: string;
+  image?: string;
+}
+
+export const WEBSITE_CREDIT_MEMBERS: WebsiteCreditMember[] = [
+  {
+    id: 'pm',
+    name: 'MohammedelHabib Khaled',
+    role: 'Project Manager (PM)',
+    category: 'Project Management',
+    initials: 'MK',
+    scope: 'Overall project governance, development sprint planning, requirement synthesis, feature prioritisation, and quality assurance.',
+    highlights: [],
+    email: 'Mohamedhpip777@gmail.com',
+    image: '/images/board/MK.jpg',
+  },
+  {
+    id: 'designer',
+    name: 'Mustafa Adil',
+    role: 'UI/UX & Visual Designer',
+    category: 'Design & UX',
+    initials: 'MA',
+    scope: 'Visual design systems, typographic scales, layout architecture, color palette balance, and accessible interface prototyping.',
+    highlights: [],
+    image: '/images/board/mustafa.jpg',
+  },
+  {
+    id: 'chief-programmer',
+    name: 'Omran Kabo',
+    role: 'Chief Programmer',
+    category: 'Frontend Engineering',
+    initials: 'OK',
+    scope: 'Application architecture, React & Next.js component engineering, interactive state management, and performance tuning.',
+    highlights: [],
+    email: 'omrankabo.official@gmail.com',
+    image: '',
+  },
+  {
+    id: 'chief-backend',
+    name: 'Sarah Sanhori',
+    role: 'Chief Backend Programmer',
+    category: 'Backend Engineering',
+    initials: 'SS',
+    scope: 'Backend data structures, API contracts, server-side data workflows, reliability engineering, and system modularity.',
+    highlights: [],
+    email: 'sarahassan1935@gmail.com',
+    image: '',
+  },
+  {
+    id: 'drafter',
+    name: 'Israa Ibrahim',
+    role: 'Drafter & Content Strategist',
+    category: 'Content & Drafting',
+    initials: 'II',
+    scope: 'Technical drafting, departmental content specifications, structural documentation, and editorial accuracy.',
+    highlights: [],
+    image: '',
+  },
+  {
+    id: 'drafter',
+    name: 'Abdelrhman Omar',
+    role: 'Drafter & Content Strategist',
+    category: 'Content & Drafting',
+    initials: 'II',
+    scope: 'Technical drafting, departmental content specifications, structural documentation, and editorial accuracy.',
+    highlights: [],
+    image: '',
+  },
+  
+];
+

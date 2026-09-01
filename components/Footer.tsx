@@ -18,6 +18,7 @@ export function Footer({ onNavigate }: FooterProps) {
     { label: 'Articles & Notes', route: 'blogs' },
     { label: 'The Board', route: 'team' },
     { label: 'Talk to CESS', route: 'contact' },
+    { label: 'Website Credits', route: 'credits' },
   ];
 
   const partners = [
@@ -298,6 +299,32 @@ export function Footer({ onNavigate }: FooterProps) {
           >
             © 2013–2026 CESS UofK. Established 2013.
           </span>
+
+          <button
+            type="button"
+            id="footer-credits-link"
+            onClick={() => onNavigate('credits')}
+            style={{
+              background: 'none',
+              border: 'none',
+              padding: '2px 0',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '12px',
+              color: 'var(--gray-700)',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              textDecoration: 'underline',
+              textUnderlineOffset: '3px',
+              transition: 'color var(--dur-fast) var(--ease)',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fire-orange)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--gray-700)')}
+          >
+            Designed and built with ❤️ by CESS website team
+          </button>
+
           <span
             style={{
               fontFamily: 'var(--font-mono)',

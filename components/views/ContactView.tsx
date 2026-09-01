@@ -1,10 +1,16 @@
 'use client';
 
 import React, { useState } from 'react';
+import { Route } from '../../lib/types';
 import { SOCIETY_INFO } from '../../lib/data';
 import { Button, Field } from '../CommonUI';
+import { Code2, Heart, ArrowRight } from 'lucide-react';
 
-export function ContactView() {
+interface ContactViewProps {
+  onNavigate?: (route: Route, slug?: string) => void;
+}
+
+export function ContactView({ onNavigate }: ContactViewProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -272,6 +278,77 @@ export function ContactView() {
                   </dd>
                 </div>
               </dl>
+
+              {/* Website Team Credits Section Card */}
+              {onNavigate && (
+                <div
+                  id="contact-website-credits-box"
+                  style={{
+                    marginTop: 'var(--space-8)',
+                    padding: 'var(--space-6)',
+                    background: 'var(--surface)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 'var(--radius-small)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 'var(--space-2)',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 'var(--space-2)',
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '11px',
+                      color: 'var(--text-muted)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.06em',
+                    }}
+                  >
+                    <Code2 size={13} color="var(--fire-orange)" />
+                    <span>DIGITAL PLATFORM CREDITS</span>
+                  </div>
+
+                  <p
+                    style={{
+                      margin: 'var(--space-1) 0 var(--space-3) 0',
+                      fontFamily: 'var(--font-body)',
+                      fontSize: 'var(--text-body-small)',
+                      color: 'var(--foreground)',
+                      lineHeight: 1.5,
+                    }}
+                  >
+                    Designed and built with ❤️ by CESS website team
+                  </p>
+
+                  <div>
+                    <button
+                      type="button"
+                      id="contact-to-credits-btn"
+                      onClick={() => onNavigate('credits')}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        padding: 0,
+                        fontFamily: 'var(--font-label)',
+                        fontSize: '13px',
+                        fontWeight: 'var(--weight-label)',
+                        color: 'var(--fire-orange)',
+                        cursor: 'pointer',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        textDecoration: 'underline',
+                        textUnderlineOffset: '3px',
+                      }}
+                    >
+                      <span>View website team portfolio</span>
+                      <ArrowRight size={13} />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Right Column: Surface Panel Form */}

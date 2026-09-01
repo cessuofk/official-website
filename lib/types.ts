@@ -10,7 +10,8 @@ export type Route =
   | 'blogs'
   | 'blog'
   | 'team'
-  | 'contact';
+  | 'contact'
+  | 'credits';
 
 export type EventStatus = 'Open' | 'Upcoming' | 'Closed';
 export type ProjectStatus = 'Active' | 'Completed' | 'Pending';

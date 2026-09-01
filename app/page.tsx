@@ -25,6 +25,7 @@ import { BlogsView } from '../components/views/BlogsView';
 import { BlogDetailView } from '../components/views/BlogDetailView';
 import { TeamView } from '../components/views/TeamView';
 import { ContactView } from '../components/views/ContactView';
+import { CreditsView } from '../components/views/CreditsView';
 
 const INK_ROUTES: Route[] = ['home', 'event', 'project', 'department'];
 
@@ -179,7 +180,11 @@ export default function Page() {
         )}
 
         {route === 'contact' && (
-          <ContactView />
+          <ContactView onNavigate={handleNavigate} />
+        )}
+
+        {route === 'credits' && (
+          <CreditsView onNavigate={handleNavigate} />
         )}
       </main>
 
