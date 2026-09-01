@@ -22,11 +22,12 @@ export const SOCIETY_INFO = {
 };
 
 export const GOALS: string[] = [
-  'To facilitate the task of the student in refining and improving the English language during his years of study.',
-  'To raise awareness and to provide training opportunities for students according to selection mechanisms similar to global selection mechanisms.',
-  'To provide scientific research opportunities for students in the various fields of civil engineering during summer vacation.',
-  'To highlight opportunities for external participation of students and establish relationships with global associations to represent the university in various international forums.',
-  'To spread the culture of academic councils, and exploiting them as a means of academic reform within a different level.',
+  "To provide students with a comprehensive university life experience to help them determine their future paths.",
+  "To bridge the gap between the university experience and similar experiences in developed countries by identifying shortcomings and working to address them, and then maintaining and sustaining this experience in the long term.",
+  "To develop students' intellectual, methodological, and academic abilities.",
+  "To implement cultural, social, athletic, creative, and academic activities.",
+  "To enable students to contribute to the development of Sudanese society, with a focus on the civil engineering aspect of this field.",
+  "To promote the association's concept in other Sudanese universities.",
 ];
 
 export const STATS = [
@@ -320,7 +321,7 @@ export const PROJECTS: ProjectItem[] = [
     department: 'Academic',
     deptSlug: 'academic',
     status: 'Active',
-    startDate: 'Oct 2026',
+    startDate: 'Mar 2026',
     endDate: 'Ongoing',
     dateRange: 'Oct 2026 – Present',
     summary: 'A curated, multi-year repository of past examination papers, laboratory manuals, lecture slide decks, and solved tutorials across all study years.',
