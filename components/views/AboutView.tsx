@@ -4,14 +4,13 @@ import React from 'react';
 import { Route } from '../../lib/types';
 import { SOCIETY_INFO, GOALS } from '../../lib/data';
 import { PlaceholderImage } from '../PlaceholderImage';
-import { Button } from '../CommonUI';
 
 interface AboutViewProps {
   onNavigate: (route: Route, slug?: string) => void;
   cardCovers: 'Photo' | 'None';
 }
 
-export function AboutView({ onNavigate, cardCovers }: AboutViewProps) {
+export function AboutView({ cardCovers }: AboutViewProps) {
   const showPhotos = cardCovers === 'Photo';
 
   return (
@@ -347,106 +346,6 @@ export function AboutView({ onNavigate, cardCovers }: AboutViewProps) {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Achievements (Dashed-border empty state) */}
-      <section
-        id="achievements-section"
-        style={{
-          background: 'var(--surface)',
-          padding: 'var(--sec-y) 0',
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 'var(--max-width)',
-            margin: '0 auto',
-            padding: '0 var(--pad-x)',
-          }}
-        >
-          <div style={{ marginBottom: 'var(--space-8)' }}>
-            <div
-              style={{
-                fontFamily: 'var(--font-label)',
-                fontSize: 'var(--text-label)',
-                fontWeight: 'var(--weight-label)',
-                letterSpacing: 'var(--tracking-eyebrow)',
-                textTransform: 'uppercase',
-                color: 'var(--text-muted)',
-                marginBottom: 'var(--space-2)',
-              }}
-            >
-              Historical Record
-            </div>
-            <h2
-              style={{
-                fontFamily: 'var(--font-headline)',
-                fontWeight: 'var(--weight-headline)',
-                letterSpacing: 'var(--tracking-headline)',
-                fontSize: 'var(--text-h2)',
-                lineHeight: 'var(--leading-headline)',
-                margin: 0,
-                color: 'var(--foreground)',
-              }}
-            >
-              Milestones & Achievements
-            </h2>
-          </div>
-
-          <div
-            id="achievements-empty-state"
-            style={{
-              border: '2px dashed var(--border-strong)',
-              borderRadius: 'var(--radius-medium)',
-              background: 'var(--background)',
-              padding: 'var(--space-12)',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 'var(--space-3)',
-            }}
-          >
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '12px',
-                color: 'var(--text-muted)',
-                letterSpacing: '0.06em',
-                textTransform: 'uppercase',
-              }}
-            >
-              ARCHIVE INGESTION IN PROGRESS
-            </span>
-            <h3
-              style={{
-                fontFamily: 'var(--font-headline)',
-                fontSize: 'var(--text-h3)',
-                margin: 0,
-                color: 'var(--foreground)',
-              }}
-            >
-              Verified historical milestones awaited
-            </h3>
-            <p
-              style={{
-                fontSize: 'var(--text-body-small)',
-                color: 'var(--text-muted)',
-                maxWidth: '48ch',
-                lineHeight: 1.5,
-                margin: 0,
-              }}
-            >
-              In accordance with society guidelines, milestone documentation, graduation statistics, and competition accolades will be published upon verification with the faculty archive.
-            </p>
-            <div style={{ marginTop: 'var(--space-4)' }}>
-              <Button variant="secondary" size="sm" onClick={() => onNavigate('contact')}>
-                Submit Historical Records
-              </Button>
-            </div>
           </div>
         </div>
       </section>

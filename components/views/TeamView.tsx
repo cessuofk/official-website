@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { Search, X } from 'lucide-react';
 import { Route, BoardMember } from '../../lib/types';
 import { BOARD_MEMBERS } from '../../lib/data';
-import { Badge, Tag, BadgeTone } from '../CommonUI';
+import { Badge, BadgeTone } from '../CommonUI';
 import { PlaceholderImage } from '../PlaceholderImage';
 
 interface TeamViewProps {
@@ -11,31 +12,37 @@ interface TeamViewProps {
   cardCovers: 'Photo' | 'None';
 }
 
-type FilterCategory = 'All' | 'Leadership' | 'Executive' | 'Deputy' | 'Council' | 'Honorary';
+type FilterCategory = 'All' | 'Supervisor' | 'Leadership' | 'Executive' | 'Deputy' | 'Council' | 'Honorary' | 'Advisory';
 
 const CATEGORY_TONES: Record<string, BadgeTone> = {
+  Supervisor: 'fire',
   Leadership: 'fire',
   Executive: 'warning',
   Deputy: 'info',
   Council: 'neutral',
   Honorary: 'neutral',
+  Advisory: 'neutral',
 };
 
 const CATEGORY_LABELS: Record<FilterCategory, string> = {
   All: 'All Members',
+  Supervisor: 'Society Supervisor',
   Leadership: 'Leadership',
   Executive: 'Executive Office',
   Deputy: 'Deputies',
   Council: 'Council Members',
   Honorary: 'Honorary Members',
+  Advisory: 'Advisory Committee',
 };
 
 const SECTION_ORDER: Exclude<FilterCategory, 'All'>[] = [
+  'Supervisor',
   'Leadership',
   'Executive',
   'Deputy',
   'Council',
   'Honorary',
+  'Advisory',
 ];
 
 export function TeamView({ cardCovers }: TeamViewProps) {
@@ -46,11 +53,13 @@ export function TeamView({ cardCovers }: TeamViewProps) {
   const filterCounts = useMemo(() => {
     const counts: Record<FilterCategory, number> = {
       All: BOARD_MEMBERS.length,
+      Supervisor: BOARD_MEMBERS.filter((m) => m.category === 'Supervisor').length,
       Leadership: BOARD_MEMBERS.filter((m) => m.category === 'Leadership').length,
       Executive: BOARD_MEMBERS.filter((m) => m.category === 'Executive').length,
       Deputy: BOARD_MEMBERS.filter((m) => m.category === 'Deputy').length,
-      Council: BOARD_MEMBERS.filter((m) => m.category === 'Council').length,
+      Council: 20, // Council members fixed count
       Honorary: BOARD_MEMBERS.filter((m) => m.category === 'Honorary').length,
+      Advisory: BOARD_MEMBERS.filter((m) => m.category === 'Advisory').length,
     };
     return counts;
   }, []);
@@ -58,7 +67,10 @@ export function TeamView({ cardCovers }: TeamViewProps) {
   const filteredMembers = useMemo(() => {
     return BOARD_MEMBERS.filter((member) => {
       const matchesCategory =
-        activeFilter === 'All' || member.category === activeFilter;
+        activeFilter === 'All' ||
+        (activeFilter === 'Council'
+          ? member.category === 'Council' || ['Leadership', 'Executive', 'Deputy'].includes(member.category)
+          : member.category === activeFilter);
       const matchesSearch =
         searchQuery.trim() === '' ||
         member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -93,129 +105,76 @@ export function TeamView({ cardCovers }: TeamViewProps) {
             padding: '0 var(--pad-x)',
           }}
         >
-          {/* Header */}
-          <div style={{ maxWidth: '48rem', marginBottom: 'var(--space-10)' }}>
-            <div
-              style={{
-                fontFamily: 'var(--font-label)',
-                fontSize: 'var(--text-label)',
-                fontWeight: 'var(--weight-label)',
-                letterSpacing: 'var(--tracking-eyebrow)',
-                textTransform: 'uppercase',
-                color: 'var(--text-muted)',
-                marginBottom: 'var(--space-2)',
-              }}
-            >
-              Leadership & Governance
-            </div>
-            <h1
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontWeight: 'var(--weight-display)',
-                letterSpacing: 'var(--tracking-display)',
-                fontSize: 'var(--text-h1)',
-                lineHeight: 'var(--leading-display)',
-                margin: '0 0 var(--space-4) 0',
-                color: 'var(--foreground)',
-              }}
-            >
-              The board
-            </h1>
-            <p
-              style={{
-                fontSize: 'var(--text-body-large)',
-                lineHeight: 'var(--leading-body)',
-                color: 'var(--text-muted)',
-                margin: 0,
-              }}
-            >
-              The Civil Engineering Students Society executive leadership, secretariats, student council representatives, and honorary advisory members for the current term.
-            </p>
-          </div>
-
-          {/* Stats Bar */}
+          {/* Header & Integrated Search Bar */}
           <div
-            id="board-metrics-bar"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 7.5rem), 1fr))',
-              gap: 'var(--space-4)',
-              padding: 'var(--space-6) 0',
-              marginBottom: 'var(--space-10)',
-              borderTop: '1px solid var(--border)',
-              borderBottom: '1px solid var(--border)',
-            }}
-          >
-            {(['All', 'Leadership', 'Executive', 'Council', 'Honorary'] as FilterCategory[]).map((cat) => (
-              <div key={cat}>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '2rem',
-                    fontWeight: 'var(--weight-display)',
-                    lineHeight: 1,
-                    color: 'var(--foreground)',
-                  }}
-                >
-                  {filterCounts[cat]}
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '11px',
-                    color: 'var(--text-muted)',
-                    letterSpacing: '0.06em',
-                    textTransform: 'uppercase',
-                    marginTop: 'var(--space-1)',
-                  }}
-                >
-                  {CATEGORY_LABELS[cat]}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Filter Bar & Search */}
-          <div
-            id="board-filter-bar"
             style={{
               display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
               justifyContent: 'space-between',
-              gap: 'var(--space-4)',
-              marginBottom: 'var(--space-8)',
+              alignItems: 'flex-end',
+              flexWrap: 'wrap',
+              gap: 'var(--space-6)',
+              marginBottom: 'var(--space-10)',
             }}
           >
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-                gap: 'var(--space-2)',
-              }}
-            >
-              {(['All', ...SECTION_ORDER] as FilterCategory[]).map(
-                (category) => (
-                  <Tag
-                    key={category}
-                    id={`team-filter-${category.toLowerCase()}`}
-                    selected={activeFilter === category}
-                    onClick={() => setActiveFilter(category)}
-                  >
-                    {CATEGORY_LABELS[category]} ({filterCounts[category]})
-                  </Tag>
-                )
-              )}
+            <div style={{ maxWidth: '44rem' }}>
+              <div
+                style={{
+                  fontFamily: 'var(--font-label)',
+                  fontSize: 'var(--text-label)',
+                  fontWeight: 'var(--weight-label)',
+                  letterSpacing: 'var(--tracking-eyebrow)',
+                  textTransform: 'uppercase',
+                  color: 'var(--text-muted)',
+                  marginBottom: 'var(--space-2)',
+                }}
+              >
+                Leadership & Governance
+              </div>
+              <h1
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 'var(--weight-display)',
+                  letterSpacing: 'var(--tracking-display)',
+                  fontSize: 'var(--text-h1)',
+                  lineHeight: 'var(--leading-display)',
+                  margin: '0 0 var(--space-4) 0',
+                  color: 'var(--foreground)',
+                }}
+              >
+                The board
+              </h1>
+              <p
+                style={{
+                  fontSize: 'var(--text-body-large)',
+                  lineHeight: 'var(--leading-body)',
+                  color: 'var(--text-muted)',
+                  margin: 0,
+                }}
+              >
+                The Civil Engineering Students Society executive leadership, secretariats, student council representatives, and honorary advisory members for the current term.
+              </p>
             </div>
 
-            {/* Quick Search */}
+            {/* Clean Integrated Search Bar */}
             <div
               style={{
                 position: 'relative',
-                minWidth: '240px',
+                minWidth: '260px',
+                maxWidth: '340px',
+                width: '100%',
               }}
             >
+              <Search
+                size={16}
+                style={{
+                  position: 'absolute',
+                  left: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--text-muted)',
+                  pointerEvents: 'none',
+                }}
+              />
               <input
                 id="team-search-input"
                 type="text"
@@ -224,8 +183,8 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                 placeholder="Search member or role..."
                 style={{
                   width: '100%',
-                  minHeight: '38px',
-                  padding: '0.375rem 0.875rem',
+                  minHeight: '42px',
+                  padding: '0.5rem 2.25rem 0.5rem 2.5rem',
                   fontSize: 'var(--text-body-small)',
                   fontFamily: 'var(--font-body)',
                   border: '1px solid var(--border)',
@@ -233,12 +192,15 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                   background: 'var(--background)',
                   color: 'var(--foreground)',
                   outline: 'none',
+                  transition: 'border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease)',
                 }}
                 onFocus={(e) => {
                   e.currentTarget.style.borderColor = 'var(--ink)';
+                  e.currentTarget.style.boxShadow = '0 0 0 1px var(--ink)';
                 }}
                 onBlur={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.boxShadow = 'none';
                 }}
               />
               {searchQuery && (
@@ -248,22 +210,91 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                   onClick={() => setSearchQuery('')}
                   style={{
                     position: 'absolute',
-                    right: '8px',
+                    right: '10px',
                     top: '50%',
                     transform: 'translateY(-50%)',
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
-                    fontSize: '14px',
                     color: 'var(--text-muted)',
                     padding: '2px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                   aria-label="Clear search"
                 >
-                  ✕
+                  <X size={14} />
                 </button>
               )}
             </div>
+          </div>
+
+          {/* Stats Bar */}
+          <div
+            id="board-metrics-bar"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 8rem), 1fr))',
+              gap: 'var(--space-4)',
+              padding: 'var(--space-6) 0',
+              marginBottom: 'var(--space-10)',
+              borderTop: '1px solid var(--border)',
+              borderBottom: '1px solid var(--border)',
+            }}
+          >
+            {(['All', 'Supervisor', 'Leadership', 'Executive', 'Council', 'Advisory'] as FilterCategory[]).map((cat) => {
+              const isSelected = activeFilter === cat;
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setActiveFilter(cat)}
+                  style={{
+                    background: isSelected ? 'var(--surface)' : 'transparent',
+                    border: 'none',
+                    borderRadius: 'var(--radius-small)',
+                    padding: 'var(--space-2) var(--space-3)',
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    transition: 'all var(--dur-fast) var(--ease)',
+                    display: 'block',
+                    width: '100%',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSelected) e.currentTarget.style.background = 'var(--surface)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSelected) e.currentTarget.style.background = 'transparent';
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: '2rem',
+                      fontWeight: 'var(--weight-display)',
+                      lineHeight: 1,
+                      color: isSelected ? 'var(--fire-orange)' : 'var(--foreground)',
+                    }}
+                  >
+                    {filterCounts[cat]}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '11px',
+                      color: isSelected ? 'var(--fire-orange)' : 'var(--text-muted)',
+                      letterSpacing: '0.06em',
+                      textTransform: 'uppercase',
+                      marginTop: 'var(--space-1)',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {CATEGORY_LABELS[cat]}
+                  </div>
+                </button>
+              );
+            })}
           </div>
 
           {/* Member Cards Grid */}
@@ -337,14 +368,14 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                     <div
                       style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 18rem), 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 20rem), 1fr))',
                         gap: 'var(--gutter)',
                       }}
                     >
                       {groupMembers.map((member) => {
-                        const formattedId = member.id < 10 ? `0${member.id}` : `${member.id}`;
                         const tone = CATEGORY_TONES[member.category] || 'neutral';
                         const initials = getInitials(member.name);
+                        const isCouncilEligible = ['Leadership', 'Executive', 'Deputy'].includes(member.category);
 
                         return (
                           <div
@@ -357,6 +388,7 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                               overflow: 'hidden',
                               display: 'flex',
                               flexDirection: 'column',
+                              width: '100%',
                               transition: 'border-color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease)',
                             }}
                             onMouseEnter={(e) => {
@@ -371,7 +403,9 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                             {showPhotos && (
                               <div
                                 style={{
-                                  height: '24rem',
+                                  width: '100%',
+                                  aspectRatio: '4 / 4.6',
+                                  maxHeight: '22rem',
                                   background: 'var(--surface)',
                                   display: 'flex',
                                   alignItems: 'center',
@@ -383,7 +417,7 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                               >
                                 {member.image ? (
                                   <PlaceholderImage
-                                    label={`MEMBER ${formattedId}`}
+                                    label=""
                                     src={member.image}
                                     alt={member.name}
                                     height="100%"
@@ -422,28 +456,23 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                                 flex: 1,
                               }}
                             >
-                              {/* Top Meta Line: ID & Category Badge */}
+                              {/* Top Meta Line: Category & Council Badges */}
                               <div
                                 style={{
                                   display: 'flex',
+                                  flexDirection: 'row',
                                   alignItems: 'center',
-                                  justifyContent: 'space-between',
+                                  gap: 'var(--space-2)',
                                   marginBottom: 'var(--space-3)',
+                                  whiteSpace: 'nowrap',
+                                  flexWrap: 'nowrap',
+                                  overflow: 'hidden',
                                 }}
                               >
-                                <span
-                                  style={{
-                                    fontFamily: 'var(--font-mono)',
-                                    fontSize: '12px',
-                                    color: 'var(--text-muted)',
-                                    letterSpacing: '0.06em',
-                                  }}
-                                >
-                                  MEMBER {formattedId}
-                                </span>
-                                <div style={{ display: 'flex' }}>
-                                  <Badge tone={tone}>{CATEGORY_LABELS[member.category as FilterCategory]}</Badge>
-                                </div>
+                                <Badge tone={tone}>{CATEGORY_LABELS[member.category as FilterCategory] || member.category}</Badge>
+                                {isCouncilEligible && (
+                                  <Badge tone="neutral">Council Member</Badge>
+                                )}
                               </div>
 
                               {/* Member Name */}

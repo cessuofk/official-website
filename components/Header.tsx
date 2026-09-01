@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { ChevronDown, ChevronRight, BookOpen, Calendar, FolderGit2 } from 'lucide-react';
 import { Route } from '../lib/types';
 import { Button } from './CommonUI';
 
@@ -12,6 +13,10 @@ interface HeaderProps {
 
 export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activitiesDropdownOpen, setActivitiesDropdownOpen] = useState(false);
+  const [mobileActivitiesOpen, setMobileActivitiesOpen] = useState(true);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Map detail subroutes to their parent category for active indicator
   const activeCategory: Record<string, string> = {
@@ -30,15 +35,57 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
   };
 
   const currentTab = activeCategory[currentRoute] || currentRoute;
+  const isActivitiesActive = ['events', 'projects', 'blogs'].includes(currentTab);
 
-  const navItems: { label: string; route: Route; key: string }[] = [
-    { label: 'Home', route: 'home', key: 'home' },
-    { label: 'About', route: 'about', key: 'about' },
-    { label: 'Departments', route: 'departments', key: 'departments' },
-    { label: 'Events', route: 'events', key: 'events' },
-    { label: 'Projects', route: 'projects', key: 'projects' },
-    { label: 'Blogs', route: 'blogs', key: 'blogs' },
+  // Activities sub-items sorted alphabetically: Blogs, Events, Projects
+  const activityItems: { label: string; route: Route; key: string; description: string; icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }> }[] = [
+    {
+      label: 'Blogs',
+      route: 'blogs',
+      key: 'blogs',
+      description: 'Technical articles, research notes & student writing',
+      icon: BookOpen,
+    },
+    {
+      label: 'Events',
+      route: 'events',
+      key: 'events',
+      description: 'Workshops, field visits, seminars & competitions',
+      icon: Calendar,
+    },
+    {
+      label: 'Projects',
+      route: 'projects',
+      key: 'projects',
+      description: 'Engineering initiatives, research & software tools',
+      icon: FolderGit2,
+    },
   ];
+
+  // Close desktop dropdown on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setActivitiesDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setActivitiesDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setActivitiesDropdownOpen(false);
+    }, 150);
+  };
 
   return (
     <header
@@ -46,7 +93,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
       style={{
         position: 'sticky',
         top: 0,
-        zIndex: 20,
+        zIndex: 30,
         background: inkRoute ? 'var(--ink)' : 'var(--background)',
         borderBottom: inkRoute ? '1px solid var(--border-inverse)' : '1px solid var(--border)',
         transition: 'background var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease)',
@@ -71,6 +118,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
           onClick={() => {
             onNavigate('home');
             setMobileMenuOpen(false);
+            setActivitiesDropdownOpen(false);
           }}
           style={{
             appearance: 'none',
@@ -100,40 +148,256 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
         <nav
           id="desktop-nav"
           className="nav-desktop-links"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-1)',
+          }}
         >
-          {navItems.map((item) => {
-            const isActive = currentTab === item.key;
-            return (
-              <button
-                key={item.key}
-                type="button"
-                id={`nav-link-${item.key}`}
-                onClick={() => onNavigate(item.route)}
+          {/* Home */}
+          <button
+            type="button"
+            id="nav-link-home"
+            onClick={() => onNavigate('home')}
+            style={{
+              appearance: 'none',
+              background: 'none',
+              border: 0,
+              cursor: 'pointer',
+              padding: 'var(--space-3) var(--space-4)',
+              minHeight: '44px',
+              fontFamily: 'var(--font-label)',
+              fontSize: 'var(--text-body-small)',
+              fontWeight: 'var(--weight-label)',
+              color: currentTab === 'home'
+                ? inkRoute ? 'var(--paper)' : 'var(--foreground)'
+                : inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+              boxShadow: currentTab === 'home' ? 'inset 0 -2px 0 var(--fire-orange)' : 'none',
+              transition: 'all var(--dur-fast) var(--ease)',
+            }}
+          >
+            Home
+          </button>
+
+          {/* About */}
+          <button
+            type="button"
+            id="nav-link-about"
+            onClick={() => onNavigate('about')}
+            style={{
+              appearance: 'none',
+              background: 'none',
+              border: 0,
+              cursor: 'pointer',
+              padding: 'var(--space-3) var(--space-4)',
+              minHeight: '44px',
+              fontFamily: 'var(--font-label)',
+              fontSize: 'var(--text-body-small)',
+              fontWeight: 'var(--weight-label)',
+              color: currentTab === 'about'
+                ? inkRoute ? 'var(--paper)' : 'var(--foreground)'
+                : inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+              boxShadow: currentTab === 'about' ? 'inset 0 -2px 0 var(--fire-orange)' : 'none',
+              transition: 'all var(--dur-fast) var(--ease)',
+            }}
+          >
+            About
+          </button>
+
+          {/* Departments */}
+          <button
+            type="button"
+            id="nav-link-departments"
+            onClick={() => onNavigate('departments')}
+            style={{
+              appearance: 'none',
+              background: 'none',
+              border: 0,
+              cursor: 'pointer',
+              padding: 'var(--space-3) var(--space-4)',
+              minHeight: '44px',
+              fontFamily: 'var(--font-label)',
+              fontSize: 'var(--text-body-small)',
+              fontWeight: 'var(--weight-label)',
+              color: currentTab === 'departments'
+                ? inkRoute ? 'var(--paper)' : 'var(--foreground)'
+                : inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+              boxShadow: currentTab === 'departments' ? 'inset 0 -2px 0 var(--fire-orange)' : 'none',
+              transition: 'all var(--dur-fast) var(--ease)',
+            }}
+          >
+            Departments
+          </button>
+
+          {/* Activities Dropdown */}
+          <div
+            ref={dropdownRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            style={{ position: 'relative' }}
+          >
+            <button
+              type="button"
+              id="nav-link-activities"
+              onClick={() => setActivitiesDropdownOpen((prev) => !prev)}
+              aria-expanded={activitiesDropdownOpen}
+              aria-haspopup="true"
+              style={{
+                appearance: 'none',
+                background: 'none',
+                border: 0,
+                cursor: 'pointer',
+                padding: 'var(--space-3) var(--space-4)',
+                minHeight: '44px',
+                fontFamily: 'var(--font-label)',
+                fontSize: 'var(--text-body-small)',
+                fontWeight: 'var(--weight-label)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                color: isActivitiesActive
+                  ? inkRoute ? 'var(--paper)' : 'var(--foreground)'
+                  : inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+                boxShadow: isActivitiesActive ? 'inset 0 -2px 0 var(--fire-orange)' : 'none',
+                transition: 'all var(--dur-fast) var(--ease)',
+              }}
+            >
+              <span>Activities</span>
+              <ChevronDown
+                size={14}
                 style={{
-                  appearance: 'none',
-                  background: 'none',
-                  border: 0,
-                  cursor: 'pointer',
-                  padding: 'var(--space-3) var(--space-4)',
-                  minHeight: '44px',
-                  fontFamily: 'var(--font-label)',
-                  fontSize: 'var(--text-body-small)',
-                  fontWeight: 'var(--weight-label)',
-                  color: isActive
-                    ? inkRoute
-                      ? 'var(--paper)'
-                      : 'var(--foreground)'
-                    : inkRoute
-                    ? 'var(--gray-300)'
-                    : 'var(--text-muted)',
-                  boxShadow: isActive ? 'inset 0 -2px 0 var(--fire-orange)' : 'none',
-                  transition: 'all var(--dur-fast) var(--ease)',
+                  transform: activitiesDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform var(--dur-fast) var(--ease)',
+                  color: isActivitiesActive ? 'var(--fire-orange)' : 'currentColor',
+                }}
+              />
+            </button>
+
+            {/* Dropdown Menu */}
+            {activitiesDropdownOpen && (
+              <div
+                id="activities-dropdown-menu"
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '0',
+                  marginTop: '4px',
+                  width: '280px',
+                  background: inkRoute ? 'var(--charcoal)' : 'var(--surface)',
+                  border: `1px solid ${inkRoute ? 'var(--border-inverse)' : 'var(--border)'}`,
+                  borderRadius: 'var(--radius-small)',
+                  boxShadow: 'var(--shadow-elevated)',
+                  padding: 'var(--space-2)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px',
+                  zIndex: 40,
                 }}
               >
-                {item.label}
-              </button>
-            );
-          })}
+                {activityItems.map((item) => {
+                  const isActive = currentTab === item.key;
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.key}
+                      type="button"
+                      id={`dropdown-link-${item.key}`}
+                      onClick={() => {
+                        onNavigate(item.route);
+                        setActivitiesDropdownOpen(false);
+                      }}
+                      style={{
+                        appearance: 'none',
+                        background: isActive
+                          ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(224,90,43,0.08)'
+                          : 'transparent',
+                        border: 0,
+                        borderRadius: 'var(--radius-small)',
+                        padding: 'var(--space-2-5) var(--space-3)',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: 'var(--space-3)',
+                        transition: 'background var(--dur-fast) var(--ease)',
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.background = inkRoute
+                            ? 'rgba(255,255,255,0.05)'
+                            : 'rgba(0,0,0,0.04)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.background = 'transparent';
+                        }
+                      }}
+                    >
+                      <div
+                        style={{
+                          marginTop: '2px',
+                          color: isActive ? 'var(--fire-orange)' : inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+                        }}
+                      >
+                        <Icon size={16} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div
+                          style={{
+                            fontFamily: 'var(--font-label)',
+                            fontSize: 'var(--text-body-small)',
+                            fontWeight: 'var(--weight-label)',
+                            color: isActive
+                              ? 'var(--fire-orange)'
+                              : inkRoute ? 'var(--paper)' : 'var(--foreground)',
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          {item.label}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: '11px',
+                            color: inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+                            lineHeight: 1.3,
+                            marginTop: '2px',
+                          }}
+                        >
+                          {item.description}
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Board */}
+          <button
+            type="button"
+            id="nav-link-board"
+            onClick={() => onNavigate('team')}
+            style={{
+              appearance: 'none',
+              background: 'none',
+              border: 0,
+              cursor: 'pointer',
+              padding: 'var(--space-3) var(--space-4)',
+              minHeight: '44px',
+              fontFamily: 'var(--font-label)',
+              fontSize: 'var(--text-body-small)',
+              fontWeight: 'var(--weight-label)',
+              color: currentTab === 'team'
+                ? inkRoute ? 'var(--paper)' : 'var(--foreground)'
+                : inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+              boxShadow: currentTab === 'team' ? 'inset 0 -2px 0 var(--fire-orange)' : 'none',
+              transition: 'all var(--dur-fast) var(--ease)',
+            }}
+          >
+            Board
+          </button>
         </nav>
 
         {/* Action Button & Mobile Toggle */}
@@ -167,6 +431,9 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
               cursor: 'pointer',
               minHeight: '44px',
               minWidth: '44px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -190,7 +457,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown matching Desktop Vibe */}
       {mobileMenuOpen && (
         <div
           id="mobile-nav-menu"
@@ -198,78 +465,334 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
           style={{
             background: inkRoute ? 'var(--charcoal)' : 'var(--surface)',
             borderTop: inkRoute ? '1px solid var(--border-inverse)' : '1px solid var(--border)',
-            padding: 'var(--space-4) var(--pad-x)',
+            padding: 'var(--space-4) var(--pad-x) var(--space-6)',
+            display: 'flex',
             flexDirection: 'column',
             gap: 'var(--space-2)',
           }}
         >
-          {navItems.map((item) => {
-            const isActive = currentTab === item.key;
-            return (
-              <button
-                key={item.key}
-                type="button"
-                id={`mobile-nav-link-${item.key}`}
-                onClick={() => {
-                  onNavigate(item.route);
-                  setMobileMenuOpen(false);
-                }}
+          {/* Home */}
+          <button
+            type="button"
+            id="mobile-nav-link-home"
+            onClick={() => {
+              onNavigate('home');
+              setMobileMenuOpen(false);
+            }}
+            style={{
+              appearance: 'none',
+              background: currentTab === 'home'
+                ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
+                : 'none',
+              border: 0,
+              borderRadius: 'var(--radius-small)',
+              cursor: 'pointer',
+              padding: 'var(--space-3) var(--space-4)',
+              minHeight: '44px',
+              textAlign: 'left',
+              fontFamily: 'var(--font-label)',
+              fontSize: 'var(--text-body)',
+              fontWeight: 'var(--weight-label)',
+              color: currentTab === 'home'
+                ? 'var(--fire-orange)'
+                : inkRoute ? 'var(--paper)' : 'var(--foreground)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>Home</span>
+            {currentTab === 'home' && (
+              <span
                 style={{
-                  appearance: 'none',
-                  background: isActive
-                    ? inkRoute
-                      ? 'rgba(255,255,255,0.08)'
-                      : 'rgba(0,0,0,0.04)'
-                    : 'none',
-                  border: 0,
-                  borderRadius: 'var(--radius-small)',
-                  cursor: 'pointer',
-                  padding: 'var(--space-3) var(--space-4)',
-                  minHeight: '44px',
-                  textAlign: 'left',
-                  fontFamily: 'var(--font-label)',
-                  fontSize: 'var(--text-body)',
-                  fontWeight: 'var(--weight-label)',
-                  color: isActive
-                    ? 'var(--fire-orange)'
-                    : inkRoute
-                    ? 'var(--paper)'
-                    : 'var(--foreground)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: 'var(--fire-orange)',
                 }}
-              >
-                <span>{item.label}</span>
-                {isActive && (
-                  <span
-                    style={{
-                      width: '6px',
-                      height: '6px',
-                      borderRadius: '50%',
-                      background: 'var(--fire-orange)',
-                    }}
-                  />
-                )}
-              </button>
-            );
-          })}
-          <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-2)' }}>
-            <Button
-              variant="secondary"
-              size="sm"
-              fullWidth
+              />
+            )}
+          </button>
+
+          {/* About */}
+          <button
+            type="button"
+            id="mobile-nav-link-about"
+            onClick={() => {
+              onNavigate('about');
+              setMobileMenuOpen(false);
+            }}
+            style={{
+              appearance: 'none',
+              background: currentTab === 'about'
+                ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
+                : 'none',
+              border: 0,
+              borderRadius: 'var(--radius-small)',
+              cursor: 'pointer',
+              padding: 'var(--space-3) var(--space-4)',
+              minHeight: '44px',
+              textAlign: 'left',
+              fontFamily: 'var(--font-label)',
+              fontSize: 'var(--text-body)',
+              fontWeight: 'var(--weight-label)',
+              color: currentTab === 'about'
+                ? 'var(--fire-orange)'
+                : inkRoute ? 'var(--paper)' : 'var(--foreground)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>About</span>
+            {currentTab === 'about' && (
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: 'var(--fire-orange)',
+                }}
+              />
+            )}
+          </button>
+
+          {/* Departments */}
+          <button
+            type="button"
+            id="mobile-nav-link-departments"
+            onClick={() => {
+              onNavigate('departments');
+              setMobileMenuOpen(false);
+            }}
+            style={{
+              appearance: 'none',
+              background: currentTab === 'departments'
+                ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
+                : 'none',
+              border: 0,
+              borderRadius: 'var(--radius-small)',
+              cursor: 'pointer',
+              padding: 'var(--space-3) var(--space-4)',
+              minHeight: '44px',
+              textAlign: 'left',
+              fontFamily: 'var(--font-label)',
+              fontSize: 'var(--text-body)',
+              fontWeight: 'var(--weight-label)',
+              color: currentTab === 'departments'
+                ? 'var(--fire-orange)'
+                : inkRoute ? 'var(--paper)' : 'var(--foreground)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>Departments</span>
+            {currentTab === 'departments' && (
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: 'var(--fire-orange)',
+                }}
+              />
+            )}
+          </button>
+
+          {/* Activities (Collapsible Accordion) */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              background: isActivitiesActive
+                ? inkRoute ? 'rgba(255,255,255,0.04)' : 'rgba(224,90,43,0.04)'
+                : 'none',
+              borderRadius: 'var(--radius-small)',
+              border: isActivitiesActive
+                ? `1px solid ${inkRoute ? 'rgba(255,255,255,0.1)' : 'rgba(224,90,43,0.15)'}`
+                : 'none',
+              overflow: 'hidden',
+            }}
+          >
+            <button
+              type="button"
+              id="mobile-nav-link-activities-toggle"
+              onClick={() => setMobileActivitiesOpen(!mobileActivitiesOpen)}
               style={{
-                borderColor: inkRoute ? 'var(--gray-300)' : 'var(--ink)',
-                color: inkRoute ? 'var(--paper)' : 'var(--foreground)',
-              }}
-              onClick={() => {
-                onNavigate('team');
-                setMobileMenuOpen(false);
+                appearance: 'none',
+                background: 'none',
+                border: 0,
+                cursor: 'pointer',
+                padding: 'var(--space-3) var(--space-4)',
+                minHeight: '44px',
+                textAlign: 'left',
+                fontFamily: 'var(--font-label)',
+                fontSize: 'var(--text-body)',
+                fontWeight: 'var(--weight-label)',
+                color: isActivitiesActive
+                  ? 'var(--fire-orange)'
+                  : inkRoute ? 'var(--paper)' : 'var(--foreground)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
               }}
             >
-              The Board
-            </Button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>Activities</span>
+                {isActivitiesActive && (
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono)',
+                      fontSize: '10px',
+                      textTransform: 'uppercase',
+                      padding: '2px 6px',
+                      borderRadius: 'var(--radius-pill)',
+                      background: 'var(--fire-orange)',
+                      color: 'var(--paper)',
+                    }}
+                  >
+                    Active
+                  </span>
+                )}
+              </div>
+              <ChevronDown
+                size={16}
+                style={{
+                  transform: mobileActivitiesOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform var(--dur-fast) var(--ease)',
+                  color: isActivitiesActive ? 'var(--fire-orange)' : 'currentColor',
+                }}
+              />
+            </button>
+
+            {mobileActivitiesOpen && (
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '0 var(--space-2) var(--space-3) var(--space-4)',
+                  gap: '2px',
+                }}
+              >
+                {activityItems.map((item) => {
+                  const isActive = currentTab === item.key;
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={item.key}
+                      type="button"
+                      id={`mobile-nav-link-${item.key}`}
+                      onClick={() => {
+                        onNavigate(item.route);
+                        setMobileMenuOpen(false);
+                      }}
+                      style={{
+                        appearance: 'none',
+                        background: isActive
+                          ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(224,90,43,0.1)'
+                          : 'none',
+                        border: 0,
+                        borderRadius: 'var(--radius-small)',
+                        cursor: 'pointer',
+                        padding: 'var(--space-2-5) var(--space-3)',
+                        minHeight: '40px',
+                        textAlign: 'left',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2-5)' }}>
+                        <Icon
+                          size={15}
+                          style={{
+                            color: isActive ? 'var(--fire-orange)' : inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+                          }}
+                        />
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-label)',
+                            fontSize: 'var(--text-body-small)',
+                            fontWeight: 'var(--weight-label)',
+                            color: isActive
+                              ? 'var(--fire-orange)'
+                              : inkRoute ? 'var(--paper)' : 'var(--foreground)',
+                          }}
+                        >
+                          {item.label}
+                        </span>
+                      </div>
+                      {isActive ? (
+                        <span
+                          style={{
+                            width: '5px',
+                            height: '5px',
+                            borderRadius: '50%',
+                            background: 'var(--fire-orange)',
+                          }}
+                        />
+                      ) : (
+                        <ChevronRight
+                          size={14}
+                          style={{
+                            color: inkRoute ? 'var(--gray-300)' : 'var(--text-muted)',
+                            opacity: 0.5,
+                          }}
+                        />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Board */}
+          <button
+            type="button"
+            id="mobile-nav-link-board"
+            onClick={() => {
+              onNavigate('team');
+              setMobileMenuOpen(false);
+            }}
+            style={{
+              appearance: 'none',
+              background: currentTab === 'team'
+                ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
+                : 'none',
+              border: 0,
+              borderRadius: 'var(--radius-small)',
+              cursor: 'pointer',
+              padding: 'var(--space-3) var(--space-4)',
+              minHeight: '44px',
+              textAlign: 'left',
+              fontFamily: 'var(--font-label)',
+              fontSize: 'var(--text-body)',
+              fontWeight: 'var(--weight-label)',
+              color: currentTab === 'team'
+                ? 'var(--fire-orange)'
+                : inkRoute ? 'var(--paper)' : 'var(--foreground)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <span>Board</span>
+            {currentTab === 'team' && (
+              <span
+                style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: 'var(--fire-orange)',
+                }}
+              />
+            )}
+          </button>
+
+          {/* Mobile Action Buttons */}
+          <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-3)' }}>
             <Button
               variant="fire"
               size="sm"
@@ -279,7 +802,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                 setMobileMenuOpen(false);
               }}
             >
-              Contact
+              Talk to CESS
             </Button>
           </div>
         </div>

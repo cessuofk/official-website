@@ -510,6 +510,15 @@ export const BOARD_POSITIONS: BoardPosition[] = [
 export const BOARD_MEMBERS: BoardMember[] = [
   {
     id: 1,
+    name: 'Mohammed Tagelsir Mustafa Abdelsalam',
+    role: 'Society Supervisor',
+    category: 'Supervisor',
+    department: 'Faculty Supervision',
+    scope: 'Faculty mentorship, academic guidance, institutional stewardship, and department administration liaison.',
+    image: '/images/board/tag.jpg',
+  },
+  {
+    id: 2,
     name: 'Musab Modawi',
     role: 'President',
     category: 'Leadership',
@@ -518,7 +527,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/musab-modawi.jpg',
   },
   {
-    id: 2,
+    id: 3,
     name: 'Sohila Said',
     role: 'Vice President',
     category: 'Leadership',
@@ -527,7 +536,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/Sohila.jpg',
   },
   {
-    id: 3,
+    id: 4,
     name: 'Amna Ibrahim',
     role: 'Secretary-General',
     category: 'Leadership',
@@ -536,7 +545,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/amna.jpg',
   },
   {
-    id: 4,
+    id: 5,
     name: 'Ola Abdelrahman',
     role: 'Academic Secretary',
     category: 'Executive',
@@ -545,7 +554,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/ola.jpg',
   },
   {
-    id: 5,
+    id: 6,
     name: 'Mosab Osman',
     role: 'Deputy Academic Secretary',
     category: 'Deputy',
@@ -555,7 +564,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     
   },
   {
-    id: 6,
+    id: 7,
     name: 'Mohammed Khogali',
     role: 'Deputy Academic Secretary',
     category: 'Deputy',
@@ -564,7 +573,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/kho.jpg',
   },
   {
-    id: 7,
+    id: 8,
     name: 'Khallad Eltigani',
     role: 'Media Secretary',
     category: 'Executive',
@@ -573,7 +582,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/khallad.jpg',
   },
   {
-    id: 8,
+    id: 9,
     name: 'Raneem TagElsir',
     role: 'Deputy Media Secretary',
     category: 'Deputy',
@@ -582,7 +591,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/raneem.jpg',
   },
   {
-    id: 9,
+    id: 10,
     name: 'Dania Salah',
     role: 'Technical Secretary',
     category: 'Executive',
@@ -591,7 +600,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/Dania.jpg',
   },
   {
-    id: 10,
+    id: 11,
     name: 'Alaa Abdalhalim',
     role: 'Deputy Technical Secretary',
     category: 'Deputy',
@@ -600,7 +609,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/alaa.jpg',
   },
   {
-    id: 11,
+    id: 12,
     name: 'Ban Omer',
     role: 'Deputy Technical Secretary',
     category: 'Deputy',
@@ -609,7 +618,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/ban.jpg',
   },
   {
-    id: 12,
+    id: 13,
     name: 'Eisa Mustafa',
     role: 'Cultural Secretary',
     category: 'Executive',
@@ -618,7 +627,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/esaa.jpg',
   },
   {
-    id: 13,
+    id: 14,
     name: 'Mohammed Ashraf',
     role: 'Deputy Cultural Secretary',
     category: 'Deputy',
@@ -627,15 +636,16 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/moashraf.jpg',
   },
   {
-    id: 14,
+    id: 15,
     name: 'Mâab Salah',
     role: 'Financial Secretary',
     category: 'Leadership',
     department: 'Finance',
     scope: 'Financial planning, budgetary oversight, sponsorship accounting, and resource allocation.',
+    image: '/images/board/maab.png',
   },
   {
-    id: 15,
+    id: 16,
     name: 'Abubakr Abdelgadir',
     role: 'Deputy Financial Secretary',
     category: 'Deputy',
@@ -644,7 +654,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/abubaker.jpg',
   },
   {
-    id: 16,
+    id: 17,
     name: 'Eithar Yousof',
     role: 'External Relations Secretary',
     category: 'Executive',
@@ -653,7 +663,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/ethar.jpg',
   },
   {
-    id: 17,
+    id: 18,
     name: 'Ryan Eltigani',
     role: 'Deputy External Relations Secretary',
     category: 'Deputy',
@@ -662,7 +672,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/rayan.jpg',
   },
   {
-    id: 18,
+    id: 19,
     name: 'Amen Ibrahim',
     role: 'Deputy External Relations Secretary',
     category: 'Deputy',
@@ -671,7 +681,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/AMEN.jpg',
   },
   {
-    id: 19,
+    id: 20,
     name: 'Ashraf Hashim',
     role: 'Sports Secretary',
     category: 'Executive',
@@ -680,7 +690,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/Ashrf.jpg',
   },
   {
-    id: 20,
+    id: 21,
     name: 'MohammedelHabib Khalid',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -689,7 +699,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/MK.jpg',
   },
   {
-    id: 21,
+    id: 22,
     name: 'Mohammed AbdelFattah',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -698,7 +708,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/MAF.jpg',
   },
   {
-    id: 22,
+    id: 23,
     name: 'Mushataha Ahmed',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -706,7 +716,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     scope: 'Honorary advisory support, project guidance, and institutional support.',
   },
   {
-    id: 23,
+    id: 24,
     name: 'Aysha Abdelhalim',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -715,7 +725,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/asha.jpg',
   },
   {
-    id: 24,
+    id: 25,
     name: 'Omer Bakri',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -724,7 +734,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     
   },
   {
-    id: 25,
+    id: 26,
     name: 'Tawasoul Abubakar',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -733,7 +743,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/tawasul.jpg',
   },
   {
-    id: 26,
+    id: 27,
     name: 'Muzen Husham',
     role: 'Council Member',
     category: 'Council',
@@ -742,7 +752,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/Muzan.jpg',
   },
   {
-    id: 27,
+    id: 28,
     name: 'Omar Ahmed',
     role: 'Council Member',
     category: 'Council',
@@ -751,7 +761,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/omarAhmed.jpg',
   },
   {
-    id: 28,
+    id: 29,
     name: 'Mohammed Atef',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -760,7 +770,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/moatif.jpg',
   },
   {
-    id: 29,
+    id: 30,
     name: 'Mozan Yasir',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -769,7 +779,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
 
   },
   {
-    id: 30,
+    id: 31,
     name: 'Ahmed Tawfeek',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -778,7 +788,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/ahtawfeek.jpg',
   },
   {
-    id: 31,
+    id: 32,
     name: 'Abdelrahman Omer',
     role: 'Honorary Member',
     category: 'Honorary',
@@ -787,12 +797,39 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/aomar.png',
   },
   {
-    id: 32,
+    id: 33,
     name: 'Abubakr Mohamed',
     role: 'Honorary Member',
     category: 'Honorary',
     department: 'Advisory',
     scope: 'Honorary advisory support, strategic society counsel, and student leadership mentorship.',
     image: '/images/board/bakriBashir.jpg',
+  },
+  {
+    id: 34,
+    name: 'Mustafa Adil Ali Mohamed',
+    role: 'Advisory Committee Member',
+    category: 'Advisory',
+    department: 'Advisory Committee',
+    scope: 'Strategic society guidance, institutional governance counsel, and executive advisory.',
+    image: '/images/board/mustafa.jpg',
+  },
+  {
+    id: 35,
+    name: 'Abbas Elsamani Abbas Musa',
+    role: 'Advisory Committee Member',
+    category: 'Advisory',
+    department: 'Advisory Committee',
+    scope: 'Professional engineering development mentorship, industry relations, and strategic vision.',
+    image: '/images/board/abbas.jpg',
+  },
+  {
+    id: 36,
+    name: 'Osman Ahmed Hassan Babiker',
+    role: 'Advisory Committee Member',
+    category: 'Advisory',
+    department: 'Advisory Committee',
+    scope: 'Alumni affairs, academic reform advisory, and engineering initiative support.',
+    image: '/images/board/osman.jpg',
   },
 ];
