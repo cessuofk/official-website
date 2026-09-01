@@ -31,17 +31,16 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
           alignItems: 'center',
         }}
       >
-        {/* Absolute image slot on right */}
+        {/* Absolute image slot on right (desktop) & full-bleed background (tablet/mobile) */}
         {showPhotos && (
           <div
             id="hero-photo-slot"
+            className="hero-photo-slot-responsive"
             style={{
               position: 'absolute',
               top: 0,
               right: 0,
               bottom: 0,
-              width: 'var(--hero-photo)',
-              height: '100%',
               zIndex: 1,
             }}
           >
@@ -58,6 +57,7 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
                 borderBottom: 0,
               }}
             />
+            <div className="hero-photo-overlay-mobile" />
           </div>
         )}
 
@@ -73,16 +73,13 @@ export function HomeView({ onNavigate, cardCovers }: HomeViewProps) {
           }}
         >
           <div
+            className="hero-text-container-responsive"
             style={{
               minHeight: 'var(--hero-min)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              // Dynamically limit width to prevent collision with the absolute image slot on mid-sized screens
-              maxWidth: 'min(calc(100% - var(--hero-photo)), 46rem)',
               padding: 'var(--sec-y) 0',
-              // Proportional padding that creates a gap on desktop (46% / 10 = 4.6%), but drops to 0 on mobile
-              paddingRight: 'calc(var(--hero-photo) / 10)',
             }}
           >
             <div

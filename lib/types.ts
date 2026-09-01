@@ -100,4 +100,8 @@ export interface BoardMember {
   department?: string;
   scope?: string;
   image?: string;
+  isCouncilMember?: boolean;
+  isConsoleMember?: boolean;
+  isHonoraryMember?: boolean;
+  isHonorMember?: boolean;
 }

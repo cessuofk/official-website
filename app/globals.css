@@ -199,6 +199,59 @@
   }
 }
 
+/* Responsive Hero Background on Tablet & Mobile */
+.hero-photo-slot-responsive {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--hero-photo, 46%);
+  height: 100%;
+}
+
+.hero-photo-overlay-mobile {
+  display: none;
+}
+
+.hero-text-container-responsive {
+  max-width: min(calc(100% - var(--hero-photo)), 46rem);
+  padding-right: calc(var(--hero-photo) / 10);
+}
+
+@media (max-width: 1024px) {
+  .hero-photo-slot-responsive {
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+  }
+
+  .hero-photo-slot-responsive img {
+    object-position: center 25% !important;
+    filter: brightness(0.65) contrast(1.05);
+  }
+
+  .hero-photo-overlay-mobile {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(17, 17, 17, 0.78) 0%,
+      rgba(17, 17, 17, 0.88) 50%,
+      rgba(17, 17, 17, 0.94) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .hero-text-container-responsive {
+    max-width: 48rem !important;
+    padding-right: 0 !important;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

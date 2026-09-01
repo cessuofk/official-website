@@ -84,8 +84,8 @@ export const DEPARTMENTS: Department[] = [
     image: '/images/Departments/academic.jpg',
   },
   {
-    slug: 'professional-practice',
-    name: 'Professional practice',
+    slug: 'Technical',
+    name: 'Technical',
     description: 'Training, research placements and the routes into practice, including IACES and ICE participation.',
     objectives: [
       'Raise awareness and provide structured training opportunities aligned with international selection standards.',
@@ -526,6 +526,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Presidency',
     scope: 'Overall executive leadership, institutional representation, and society coordination with faculty leadership.',
     image: '/images/board/musab-modawi.jpg',
+    isCouncilMember: true,
   },
   {
     id: 3,
@@ -535,6 +536,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Presidency',
     scope: 'Executive operational supervision, strategic planning, and inter-secretariat coordination.',
     image: '/images/board/Sohila.jpg',
+    isCouncilMember: true,
   },
   {
     id: 4,
@@ -544,6 +546,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'General Secretariat',
     scope: 'Official administrative governance, documentation archiving, and executive correspondence.',
     image: '/images/board/amna.jpg',
+    isCouncilMember: true,
   },
   {
     id: 5,
@@ -553,6 +556,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Academic',
     scope: 'Curriculum resources, student tutorial programs, examination archives, and academic reform initiatives.',
     image: '/images/board/ola.jpg',
+    isCouncilMember: true,
   },
   {
     id: 6,
@@ -562,7 +566,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Academic',
     scope: 'Academic workshop execution, study archive management, and undergraduate mentorship support.',
     image: '/images/board/mosabOsman.jpg',
-    
+    isCouncilMember: true,
   },
   {
     id: 7,
@@ -572,6 +576,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Academic',
     scope: 'Technical reference curation, academic tutorial coordination, and student study circles.',
     image: '/images/board/kho.jpg',
+    isCouncilMember: true,
   },
   {
     id: 8,
@@ -581,6 +586,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Media',
     scope: 'Society visual identity, digital publishing, media coverage, and communication campaigns.',
     image: '/images/board/khallad.jpg',
+    isCouncilMember: true,
   },
   {
     id: 9,
@@ -590,6 +596,17 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Media',
     scope: 'Visual content design, event documentation, photographic archives, and social outreach.',
     image: '/images/board/raneem.jpg',
+    isCouncilMember: true,
+  },
+  {
+    id: 26,
+    name: 'Tawasoul Abubakar',
+    role: 'Deputy Media Secretary',
+    category: 'Deputy',
+    department: 'Advisory',
+    scope: 'Visual content design, event documentation, photographic archives, and social outreach.',
+    image: '/images/board/tawasul.jpg',
+    isHonorMember: true,
   },
   {
     id: 10,
@@ -599,6 +616,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Technical',
     scope: 'Engineering software workshops, technical training programs, and hands-on skill development.',
     image: '/images/board/Dania.jpg',
+    isCouncilMember: true,
   },
   {
     id: 11,
@@ -608,6 +626,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Technical',
     scope: 'Technical lab coordination, structural modelling tutorials, and software masterclasses.',
     image: '/images/board/alaa.jpg',
+    isCouncilMember: true,
   },
   {
     id: 12,
@@ -617,6 +636,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Technical',
     scope: 'Engineering toolkit resources, computing sessions, and technical workflow guidance.',
     image: '/images/board/ban.jpg',
+    isCouncilMember: true,
   },
   {
     id: 13,
@@ -626,6 +646,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Cultural',
     scope: 'Cultural exhibitions, annual departmental conference programming, and community forums.',
     image: '/images/board/esaa.jpg',
+    isCouncilMember: true,
   },
   {
     id: 14,
@@ -635,6 +656,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Cultural',
     scope: 'Community activities, cultural seminars, student debates, and society gatherings.',
     image: '/images/board/moashraf.jpg',
+    isCouncilMember: true,
   },
   {
     id: 15,
@@ -644,6 +666,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Finance',
     scope: 'Financial planning, budgetary oversight, sponsorship accounting, and resource allocation.',
     image: '/images/board/maab.png',
+    isCouncilMember: true,
   },
   {
     id: 16,
@@ -653,6 +676,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Finance',
     scope: 'Expenditure auditing, event budget tracking, and treasury documentation.',
     image: '/images/board/abubaker.jpg',
+    isCouncilMember: true,
   },
   {
     id: 17,
@@ -662,6 +686,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'External Relations',
     scope: 'IACES LC Khartoum international liaison, ICE UK chapter partnerships, and industry relations.',
     image: '/images/board/ethar.jpg',
+    isCouncilMember: true,
   },
   {
     id: 18,
@@ -671,6 +696,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'External Relations',
     scope: 'Global student exchange initiatives, institutional partnerships, and external delegations.',
     image: '/images/board/rayan.jpg',
+    isCouncilMember: true,
   },
   {
     id: 19,
@@ -680,6 +706,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'External Relations',
     scope: 'Industry site visit coordination, professional networks, and engineering guest seminars.',
     image: '/images/board/AMEN.jpg',
+     isHonorMember: true, 
   },
   {
     id: 20,
@@ -689,6 +716,7 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Sports',
     scope: 'Inter-departmental sporting tournaments, faculty leagues, and student athletic events.',
     image: '/images/board/Ashrf.jpg',
+    isCouncilMember: true,
   },
   {
     id: 21,
@@ -733,15 +761,6 @@ export const BOARD_MEMBERS: BoardMember[] = [
     department: 'Advisory',
     scope: 'Honorary advisory support, professional development mentorship, and society guidance.',
     
-  },
-  {
-    id: 26,
-    name: 'Tawasoul Abubakar',
-    role: 'Honorary Member',
-    category: 'Honorary',
-    department: 'Advisory',
-    scope: 'Honorary advisory support, external representation, and alumni engagement.',
-    image: '/images/board/tawasul.jpg',
   },
   {
     id: 27,

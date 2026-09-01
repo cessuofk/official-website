@@ -57,8 +57,8 @@ export function TeamView({ cardCovers }: TeamViewProps) {
       Leadership: BOARD_MEMBERS.filter((m) => m.category === 'Leadership').length,
       Executive: BOARD_MEMBERS.filter((m) => m.category === 'Executive').length,
       Deputy: BOARD_MEMBERS.filter((m) => m.category === 'Deputy').length,
-      Council: 20, // Council members fixed count
-      Honorary: BOARD_MEMBERS.filter((m) => m.category === 'Honorary').length,
+      Council: BOARD_MEMBERS.filter((m) => m.category === 'Council' || Boolean(m.isCouncilMember || m.isConsoleMember)).length,
+      Honorary: BOARD_MEMBERS.filter((m) => m.category === 'Honorary' || Boolean(m.isHonoraryMember || m.isHonorMember)).length,
       Advisory: BOARD_MEMBERS.filter((m) => m.category === 'Advisory').length,
     };
     return counts;
@@ -66,10 +66,14 @@ export function TeamView({ cardCovers }: TeamViewProps) {
 
   const filteredMembers = useMemo(() => {
     return BOARD_MEMBERS.filter((member) => {
+      const isHonor = Boolean(member.isHonoraryMember || member.isHonorMember);
+      const isCouncil = Boolean(member.isCouncilMember || member.isConsoleMember);
       const matchesCategory =
         activeFilter === 'All' ||
         (activeFilter === 'Council'
-          ? member.category === 'Council' || ['Leadership', 'Executive', 'Deputy'].includes(member.category)
+          ? member.category === 'Council' || isCouncil
+          : activeFilter === 'Honorary'
+          ? member.category === 'Honorary' || isHonor
           : member.category === activeFilter);
       const matchesSearch =
         searchQuery.trim() === '' ||
@@ -375,7 +379,8 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                       {groupMembers.map((member) => {
                         const tone = CATEGORY_TONES[member.category] || 'neutral';
                         const initials = getInitials(member.name);
-                        const isCouncilEligible = ['Leadership', 'Executive', 'Deputy'].includes(member.category);
+                        const showCouncilTag = Boolean(member.isCouncilMember || member.isConsoleMember);
+                        const showHonoraryTag = Boolean(member.isHonoraryMember || member.isHonorMember);
 
                         return (
                           <div
@@ -456,7 +461,7 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                                 flex: 1,
                               }}
                             >
-                              {/* Top Meta Line: Category & Council Badges */}
+                              {/* Top Meta Line: Category & Status Badges */}
                               <div
                                 style={{
                                   display: 'flex',
@@ -465,13 +470,15 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                                   gap: 'var(--space-2)',
                                   marginBottom: 'var(--space-3)',
                                   whiteSpace: 'nowrap',
-                                  flexWrap: 'nowrap',
-                                  overflow: 'hidden',
+                                  flexWrap: 'wrap',
                                 }}
                               >
                                 <Badge tone={tone}>{CATEGORY_LABELS[member.category as FilterCategory] || member.category}</Badge>
-                                {isCouncilEligible && (
-                                  <Badge tone="neutral">Council Member</Badge>
+                                {showHonoraryTag && (
+                                  <Badge tone="warning">Honorary Member</Badge>
+                                )}
+                                {showCouncilTag && (
+                                  <Badge tone="info">Council Member</Badge>
                                 )}
                               </div>
 
