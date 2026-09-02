@@ -641,9 +641,9 @@ export const BOARD_MEMBERS: BoardMember[] = [
   {
     id: 13,
     name: 'Eisa Mustafa',
-    role: 'Cultural Secretary',
+    role: 'Culture Secretary',
     category: 'Executive',
-    department: 'Cultural',
+    department: 'Culture',
     scope: 'Cultural exhibitions, annual departmental conference programming, and community forums.',
     image: '/images/board/esaa.jpg',
     isCouncilMember: true,
@@ -651,9 +651,9 @@ export const BOARD_MEMBERS: BoardMember[] = [
   {
     id: 14,
     name: 'Mohammed Ashraf',
-    role: 'Deputy Cultural Secretary',
+    role: 'Deputy Culture Secretary',
     category: 'Deputy',
-    department: 'Cultural',
+    department: 'Culture',
     scope: 'Community activities, cultural seminars, student debates, and society gatherings.',
     image: '/images/board/moashraf.jpg',
     isCouncilMember: true,
