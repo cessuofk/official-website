@@ -39,7 +39,7 @@ export const STATS = [
   {
     value: '2',
     label: 'INTERNATIONAL AFFILIATIONS',
-    mechanism: 'Sole IACES local committee in Sudan and official student chapter of ICE in the UK.',
+    mechanism: 'One of the two IACES local committee in Sudan and official student chapter of ICE in the UK.',
   },
   {
     value: '4',
