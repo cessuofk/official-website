@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
+import { AppShell } from '../components/AppShell';
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -52,7 +53,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${archivo.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable}`}>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <AppShell>{children}</AppShell>
+      </body>
     </html>
   );
 }

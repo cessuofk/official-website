@@ -2,16 +2,35 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, ChevronRight, BookOpen, Calendar, FolderGit2 } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Route } from '../lib/types';
+import { pathToRouteInfo, useAppNavigation, routeToPath } from '../lib/navigation';
 import { Button } from './CommonUI';
 
 interface HeaderProps {
-  currentRoute: Route;
-  onNavigate: (route: Route, slug?: string) => void;
-  inkRoute: boolean;
+  currentRoute?: Route;
+  onNavigate?: (route: Route, slug?: string) => void;
+  inkRoute?: boolean;
 }
 
-export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
+export function Header({ currentRoute: propRoute, onNavigate, inkRoute: propInkRoute }: HeaderProps) {
+  const pathname = usePathname();
+  const appNavigate = useAppNavigation();
+  const routeInfo = pathToRouteInfo(pathname || '/');
+
+  const currentRoute = propRoute || routeInfo.route;
+  const inkRoute = propInkRoute !== undefined ? propInkRoute : routeInfo.isInk;
+
+  const handleNav = (targetRoute: Route, slug?: string) => {
+    if (onNavigate) {
+      onNavigate(targetRoute, slug);
+    } else {
+      appNavigate(targetRoute, slug);
+    }
+  };
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activitiesDropdownOpen, setActivitiesDropdownOpen] = useState(false);
   const [mobileActivitiesOpen, setMobileActivitiesOpen] = useState(true);
@@ -112,11 +131,12 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
         }}
       >
         {/* Logo / Wordmark */}
-        <button
-          type="button"
+        <Link
+          href="/"
+          prefetch={true}
           id="header-wordmark-btn"
           onClick={() => {
-            onNavigate('home');
+            if (onNavigate) onNavigate('home');
             setMobileMenuOpen(false);
             setActivitiesDropdownOpen(false);
           }}
@@ -130,13 +150,16 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
             alignItems: 'center',
             gap: 'var(--space-3)',
             textAlign: 'left',
+            textDecoration: 'none',
           }}
         >
-          <img
+          <Image
             src={inkRoute ? '/cess-nav-white.png' : '/cess-nav-ink.png'}
             alt="CESS UofK"
-            loading="eager"
-            decoding="sync"
+            width={160}
+            height={36}
+            priority
+            referrerPolicy="no-referrer"
             style={{
               height: '36px',
               width: 'auto',
@@ -144,7 +167,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
               objectFit: 'contain',
             }}
           />
-        </button>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <nav
@@ -157,15 +180,21 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
           }}
         >
           {/* Home */}
-          <button
-            type="button"
+          <Link
+            href="/"
+            prefetch={true}
             id="nav-link-home"
-            onClick={() => onNavigate('home')}
+            onClick={() => {
+              if (onNavigate) onNavigate('home');
+            }}
             style={{
               appearance: 'none',
               background: 'none',
               border: 0,
               cursor: 'pointer',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
               padding: 'var(--space-3) var(--space-4)',
               minHeight: '44px',
               fontFamily: 'var(--font-label)',
@@ -179,18 +208,24 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
             }}
           >
             Home
-          </button>
+          </Link>
 
           {/* About */}
-          <button
-            type="button"
+          <Link
+            href="/about"
+            prefetch={true}
             id="nav-link-about"
-            onClick={() => onNavigate('about')}
+            onClick={() => {
+              if (onNavigate) onNavigate('about');
+            }}
             style={{
               appearance: 'none',
               background: 'none',
               border: 0,
               cursor: 'pointer',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
               padding: 'var(--space-3) var(--space-4)',
               minHeight: '44px',
               fontFamily: 'var(--font-label)',
@@ -204,18 +239,24 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
             }}
           >
             About
-          </button>
+          </Link>
 
           {/* Departments */}
-          <button
-            type="button"
+          <Link
+            href="/departments"
+            prefetch={true}
             id="nav-link-departments"
-            onClick={() => onNavigate('departments')}
+            onClick={() => {
+              if (onNavigate) onNavigate('departments');
+            }}
             style={{
               appearance: 'none',
               background: 'none',
               border: 0,
               cursor: 'pointer',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
               padding: 'var(--space-3) var(--space-4)',
               minHeight: '44px',
               fontFamily: 'var(--font-label)',
@@ -229,7 +270,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
             }}
           >
             Departments
-          </button>
+          </Link>
 
           {/* Activities Dropdown */}
           <div
@@ -300,16 +341,18 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                   const isActive = currentTab === item.key;
                   const Icon = item.icon;
                   return (
-                    <button
+                    <Link
                       key={item.key}
-                      type="button"
+                      href={routeToPath(item.route)}
+                      prefetch={true}
                       id={`dropdown-link-${item.key}`}
                       onClick={() => {
-                        onNavigate(item.route);
+                        if (onNavigate) onNavigate(item.route);
                         setActivitiesDropdownOpen(false);
                       }}
                       style={{
                         appearance: 'none',
+                        textDecoration: 'none',
                         background: isActive
                           ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(224,90,43,0.08)'
                           : 'transparent',
@@ -369,7 +412,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                           {item.description}
                         </div>
                       </div>
-                    </button>
+                    </Link>
                   );
                 })}
               </div>
@@ -377,15 +420,21 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
           </div>
 
           {/* Board */}
-          <button
-            type="button"
+          <Link
+            href="/team"
+            prefetch={true}
             id="nav-link-board"
-            onClick={() => onNavigate('team')}
+            onClick={() => {
+              if (onNavigate) onNavigate('team');
+            }}
             style={{
               appearance: 'none',
               background: 'none',
               border: 0,
               cursor: 'pointer',
+              textDecoration: 'none',
+              display: 'inline-flex',
+              alignItems: 'center',
               padding: 'var(--space-3) var(--space-4)',
               minHeight: '44px',
               fontFamily: 'var(--font-label)',
@@ -399,22 +448,29 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
             }}
           >
             Board
-          </button>
+          </Link>
         </nav>
 
         {/* Action Button & Mobile Toggle */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
-          <Button
-            id="nav-contact-action-btn"
-            variant={inkRoute ? 'inverse' : 'primary'}
-            size="sm"
+          <Link
+            href="/contact"
+            prefetch={true}
+            id="nav-contact-action-btn-link"
+            style={{ textDecoration: 'none' }}
             onClick={() => {
-              onNavigate('contact');
+              if (onNavigate) onNavigate('contact');
               setMobileMenuOpen(false);
             }}
           >
-            Talk to CESS
-          </Button>
+            <Button
+              id="nav-contact-action-btn"
+              variant={inkRoute ? 'inverse' : 'primary'}
+              size="sm"
+            >
+              Talk to CESS
+            </Button>
+          </Link>
 
           {/* Mobile hamburger button */}
           <button
@@ -474,15 +530,17 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
           }}
         >
           {/* Home */}
-          <button
-            type="button"
+          <Link
+            href="/"
+            prefetch={true}
             id="mobile-nav-link-home"
             onClick={() => {
-              onNavigate('home');
+              if (onNavigate) onNavigate('home');
               setMobileMenuOpen(false);
             }}
             style={{
               appearance: 'none',
+              textDecoration: 'none',
               background: currentTab === 'home'
                 ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
                 : 'none',
@@ -514,18 +572,20 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                 }}
               />
             )}
-          </button>
+          </Link>
 
           {/* About */}
-          <button
-            type="button"
+          <Link
+            href="/about"
+            prefetch={true}
             id="mobile-nav-link-about"
             onClick={() => {
-              onNavigate('about');
+              if (onNavigate) onNavigate('about');
               setMobileMenuOpen(false);
             }}
             style={{
               appearance: 'none',
+              textDecoration: 'none',
               background: currentTab === 'about'
                 ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
                 : 'none',
@@ -557,18 +617,20 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                 }}
               />
             )}
-          </button>
+          </Link>
 
           {/* Departments */}
-          <button
-            type="button"
+          <Link
+            href="/departments"
+            prefetch={true}
             id="mobile-nav-link-departments"
             onClick={() => {
-              onNavigate('departments');
+              if (onNavigate) onNavigate('departments');
               setMobileMenuOpen(false);
             }}
             style={{
               appearance: 'none',
+              textDecoration: 'none',
               background: currentTab === 'departments'
                 ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
                 : 'none',
@@ -600,7 +662,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                 }}
               />
             )}
-          </button>
+          </Link>
 
           {/* Activities (Collapsible Accordion) */}
           <div
@@ -681,16 +743,18 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                   const isActive = currentTab === item.key;
                   const Icon = item.icon;
                   return (
-                    <button
+                    <Link
                       key={item.key}
-                      type="button"
+                      href={routeToPath(item.route)}
+                      prefetch={true}
                       id={`mobile-nav-link-${item.key}`}
                       onClick={() => {
-                        onNavigate(item.route);
+                        if (onNavigate) onNavigate(item.route);
                         setMobileMenuOpen(false);
                       }}
                       style={{
                         appearance: 'none',
+                        textDecoration: 'none',
                         background: isActive
                           ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(224,90,43,0.1)'
                           : 'none',
@@ -743,7 +807,7 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                           }}
                         />
                       )}
-                    </button>
+                    </Link>
                   );
                 })}
               </div>
@@ -751,15 +815,17 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
           </div>
 
           {/* Board */}
-          <button
-            type="button"
+          <Link
+            href="/team"
+            prefetch={true}
             id="mobile-nav-link-board"
             onClick={() => {
-              onNavigate('team');
+              if (onNavigate) onNavigate('team');
               setMobileMenuOpen(false);
             }}
             style={{
               appearance: 'none',
+              textDecoration: 'none',
               background: currentTab === 'team'
                 ? inkRoute ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)'
                 : 'none',
@@ -791,21 +857,28 @@ export function Header({ currentRoute, onNavigate, inkRoute }: HeaderProps) {
                 }}
               />
             )}
-          </button>
+          </Link>
 
           {/* Mobile Action Buttons */}
           <div style={{ display: 'flex', gap: 'var(--space-2)', marginTop: 'var(--space-3)' }}>
-            <Button
-              variant="fire"
-              size="sm"
-              fullWidth
+            <Link
+              href="/contact"
+              prefetch={true}
+              id="mobile-contact-action-link"
+              style={{ textDecoration: 'none', width: '100%' }}
               onClick={() => {
-                onNavigate('contact');
+                if (onNavigate) onNavigate('contact');
                 setMobileMenuOpen(false);
               }}
             >
-              Talk to CESS
-            </Button>
+              <Button
+                variant="fire"
+                size="sm"
+                fullWidth
+              >
+                Talk to CESS
+              </Button>
+            </Link>
           </div>
         </div>
       )}

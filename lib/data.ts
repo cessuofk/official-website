@@ -84,7 +84,7 @@ export const DEPARTMENTS: Department[] = [
     image: '/images/Departments/academic.jpg',
   },
   {
-    slug: 'Technical',
+    slug: 'technical',
     name: 'Technical',
     description: 'Training, research placements and the routes into practice, including IACES and ICE participation.',
     objectives: [
@@ -930,6 +930,69 @@ export const WEBSITE_CREDIT_MEMBERS: WebsiteCreditMember[] = [
     highlights: [],
     image: '',
   },
-  
 ];
+
+// ==========================================
+// Decap CMS Data Access Layer (Future-Ready)
+// ==========================================
+
+export function getDepartments(): Department[] {
+  return DEPARTMENTS;
+}
+
+export function getDepartmentBySlug(slug: string): Department | undefined {
+  const s = slug?.trim().toLowerCase();
+  return DEPARTMENTS.find((d) => d.slug.toLowerCase() === s);
+}
+
+export function getAllDepartmentSlugs(): string[] {
+  return DEPARTMENTS.map((d) => d.slug);
+}
+
+export function getEvents(): EventItem[] {
+  return EVENTS;
+}
+
+export function getEventBySlug(slug: string): EventItem | undefined {
+  const s = slug?.trim().toLowerCase();
+  return EVENTS.find((e) => e.slug.toLowerCase() === s);
+}
+
+export function getAllEventSlugs(): string[] {
+  return EVENTS.map((e) => e.slug);
+}
+
+export function getProjects(): ProjectItem[] {
+  return PROJECTS;
+}
+
+export function getProjectBySlug(slug: string): ProjectItem | undefined {
+  const s = slug?.trim().toLowerCase();
+  return PROJECTS.find((p) => p.slug.toLowerCase() === s);
+}
+
+export function getAllProjectSlugs(): string[] {
+  return PROJECTS.map((p) => p.slug);
+}
+
+export function getBlogs(): BlogItem[] {
+  return BLOGS;
+}
+
+export function getBlogBySlug(slug: string): BlogItem | undefined {
+  const s = slug?.trim().toLowerCase();
+  return BLOGS.find((b) => b.slug.toLowerCase() === s);
+}
+
+export function getAllBlogSlugs(): string[] {
+  return BLOGS.map((b) => b.slug);
+}
+
+export function getBoardMembers(): BoardMember[] {
+  return BOARD_MEMBERS;
+}
+
+export function getWebsiteCreditMembers(): WebsiteCreditMember[] {
+  return WEBSITE_CREDIT_MEMBERS;
+}
 

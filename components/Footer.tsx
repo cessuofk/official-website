@@ -1,14 +1,27 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { Route } from '../lib/types';
 import { SOCIETY_INFO } from '../lib/data';
+import { useAppNavigation, routeToPath } from '../lib/navigation';
 
 interface FooterProps {
-  onNavigate: (route: Route, slug?: string) => void;
+  onNavigate?: (route: Route, slug?: string) => void;
 }
 
 export function Footer({ onNavigate }: FooterProps) {
+  const appNavigate = useAppNavigation();
+
+  const handleNav = (route: Route, slug?: string) => {
+    if (onNavigate) {
+      onNavigate(route, slug);
+    } else {
+      appNavigate(route, slug);
+    }
+  };
+
   const navLinks: { label: string; route: Route }[] = [
     { label: 'Home', route: 'home' },
     { label: 'About Society', route: 'about' },
@@ -65,12 +78,13 @@ export function Footer({ onNavigate }: FooterProps) {
           {/* Column 1: Stacked Wordmark + Display Campaign + Summary */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
             <div>
-              <img
-                // Note: Update this to your dark-text logo file since the background is now light
+              <Image
                 src="/cess-lockup-white.png" 
                 alt="Civil Engineering Students Society — University of Khartoum"
-                loading="eager"
-                decoding="sync"
+                width={220}
+                height={48}
+                priority
+                referrerPolicy="no-referrer"
                 style={{
                   height: '48px',
                   width: 'auto',
@@ -126,16 +140,20 @@ export function Footer({ onNavigate }: FooterProps) {
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
               {navLinks.map((link) => (
-                <button
+                <Link
                   key={link.route}
-                  type="button"
+                  href={routeToPath(link.route)}
+                  prefetch={true}
                   id={`footer-nav-${link.route}`}
-                  onClick={() => onNavigate(link.route)}
+                  onClick={() => {
+                    if (onNavigate) onNavigate(link.route);
+                  }}
                   style={{
                     appearance: 'none',
                     background: 'none',
                     border: 0,
                     cursor: 'pointer',
+                    textDecoration: 'none',
                     padding: 'var(--space-2) 0',
                     minHeight: '38px',
                     textAlign: 'left',
@@ -150,7 +168,7 @@ export function Footer({ onNavigate }: FooterProps) {
                   onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
                 >
                   {link.label}
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -300,10 +318,13 @@ export function Footer({ onNavigate }: FooterProps) {
             © 2013–2026 CESS UofK. Established 2013.
           </span>
 
-          <button
-            type="button"
+          <Link
+            href="/credits"
+            prefetch={true}
             id="footer-credits-link"
-            onClick={() => onNavigate('credits')}
+            onClick={() => {
+              if (onNavigate) onNavigate('credits');
+            }}
             style={{
               background: 'none',
               border: 'none',
@@ -323,7 +344,7 @@ export function Footer({ onNavigate }: FooterProps) {
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--gray-700)')}
           >
             Designed and built with ❤️ by CESS website team
-          </button>
+          </Link>
 
           <span
             style={{
