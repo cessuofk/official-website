@@ -6,12 +6,6 @@ import { Header } from './Header';
 import { Footer } from './Footer';
 import { TopProgressBar } from './TopProgressBar';
 import { PRIMARY_NAV_PATHS } from '../lib/navigation';
-import {
-  getAllDepartmentSlugs,
-  getAllEventSlugs,
-  getAllProjectSlugs,
-  getAllBlogSlugs,
-} from '../lib/data';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -20,79 +14,65 @@ interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
   const router = useRouter();
 
-  // Eager pre-warming of all application routes into Next.js router cache
+  // Prefetch only the small set of primary nav routes. Next.js's own
+  // <Link> already prefetches individual detail-page links when they
+  // scroll into view, so we don't need to eagerly warm every single
+  // department/event/project/blog slug on every page load — doing that
+  // on mount (and again on every hover/touch, as the previous version
+  // did) is unnecessary network + memory pressure, especially on phones.
   useEffect(() => {
-    // 1. Immediately pre-warm primary top-level routes
     PRIMARY_NAV_PATHS.forEach((path) => {
       router.prefetch(path);
     });
-
-    // 2. In background idle time, pre-warm dynamic detail routes
-    const timer = setTimeout(() => {
-      const detailPaths = [
-        ...getAllDepartmentSlugs().map((slug) => `/departments/${slug}`),
-        ...getAllEventSlugs().map((slug) => `/events/${slug}`),
-        ...getAllProjectSlugs().map((slug) => `/projects/${slug}`),
-        ...getAllBlogSlugs().map((slug) => `/blogs/${slug}`),
-      ];
-
-      detailPaths.forEach((path) => {
-        router.prefetch(path);
-      });
-    }, 150);
-
-    return () => clearTimeout(timer);
   }, [router]);
 
-  // Passive hover/pointer listener to prefetch any link or card before user finishes clicking
+  // Register the caching Service Worker, and make sure that if a NEW
+  // version of it takes over (e.g. after we ship a fix like this one),
+  // any tab still running under an old/broken worker reloads itself
+  // once to pick up the fix automatically. This is what lets phones
+  // that are currently stuck on a bad cached build self-heal the next
+  // time they open the site, without the user needing to manually
+  // clear their cache.
   useEffect(() => {
-    const handlePointerOver = (e: MouseEvent | TouchEvent) => {
-      const el = (e.target as HTMLElement)?.closest('a[href], button[data-route], [data-href]');
-      if (!el) return;
+    if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return;
 
-      if (el instanceof HTMLAnchorElement && el.href) {
-        try {
-          const url = new URL(el.href, window.location.href);
-          if (url.origin === window.location.origin) {
-            router.prefetch(url.pathname);
-          }
-        } catch {
-          // ignore invalid URLs
-        }
-      } else {
-        const dataHref = el.getAttribute('data-href');
-        if (dataHref) {
-          router.prefetch(dataHref);
-        }
+    const handleControllerChange = () => {
+      const lastReload = sessionStorage.getItem('sw-reload-timestamp');
+      const now = Date.now();
+      
+      // Enforce a 30-second cooldown to prevent infinite reload loops
+      if (lastReload && (now - parseInt(lastReload, 10)) < 30000) {
+        return;
       }
+      
+      sessionStorage.setItem('sw-reload-timestamp', now.toString());
+      window.location.reload();
+    };
+    
+    navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
+
+    const registerSW = () => {
+      navigator.serviceWorker
+        .register('/sw.js', { scope: '/' })
+        .then((registration) => {
+          // Ask the browser to check for a new sw.js right away instead
+          // of waiting for its normal (throttled) update check.
+          registration.update().catch(() => {});
+        })
+        .catch((err) => {
+          console.debug('[SW] registration notice:', err);
+        });
     };
 
-    window.addEventListener('mouseover', handlePointerOver, { passive: true });
-    window.addEventListener('touchstart', handlePointerOver, { passive: true });
+    if (document.readyState === 'complete') {
+      registerSW();
+    } else {
+      window.addEventListener('load', registerSW, { once: true });
+    }
 
     return () => {
-      window.removeEventListener('mouseover', handlePointerOver);
-      window.removeEventListener('touchstart', handlePointerOver);
+      navigator.serviceWorker.removeEventListener('controllerchange', handleControllerChange);
     };
-  }, [router]);
-
-  // Register high-performance Stale-While-Revalidate caching Service Worker
-  useEffect(() => {
-    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      const registerSW = () => {
-        navigator.serviceWorker
-          .register('/sw.js', { scope: '/' })
-          .catch((err) => {
-            console.debug('[SW] registration notice:', err);
-          });
-      };
-
-      if (document.readyState === 'complete') {
-        registerSW();
-      } else {
-        window.addEventListener('load', registerSW, { once: true });
-      }
-    }
   }, []);
 
   return (
