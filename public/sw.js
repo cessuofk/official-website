@@ -1,125 +1,80 @@
-// CESS UofK Ultra-Fast Stale-While-Revalidate Service Worker
-// Delivers sub-40ms page loads from CacheStorage with background cookie synchronization
+// CESS UofK Service Worker
+//
+// IMPORTANT: This worker intentionally NEVER caches page navigations,
+// HTML, or RSC payloads. Next.js renames its JS chunks on every deploy
+// (content-hashed filenames). A service worker that caches page HTML
+// will keep serving old HTML that references JS chunks which no longer
+// exist on the server after a redeploy -> the browser 404s fetching
+// them -> the app throws a ChunkLoadError and crashes. That was the
+// cause of the crashes on repeat visits, especially on phones that
+// don't get hard-refreshed.
+//
+// This version only cache-firsts genuinely immutable, content-hashed
+// assets (Next's /_next/static/* build output, images, fonts). Those
+// are safe to cache forever because a changed file always gets a new
+// filename. Everything else (pages, RSC data, API calls) always goes
+// to the network.
 
-const CACHE_NAME = 'cess-cache-v2026.09.03';
-const PRECACHE_URLS = [
-  '/',
-  '/about',
-  '/departments',
-  '/departments/academic',
-  '/departments/technical',
-  '/departments/cultural',
-  '/departments/sports',
-  '/events',
-  '/events/cesscon-3',
-  '/events/icec-lc-khartoum',
-  '/events/ice-chartered-seminar',
-  '/events/traffic-congestion-lecture',
-  '/events/academic-reforms-forum',
-  '/projects',
-  '/projects/course-hub',
-  '/projects/cesscon-exhibitions',
-  '/projects/resource-archive',
-  '/blogs',
-  '/blogs/submit-your-work',
-  '/blogs/iaces-exchange-notes',
-  '/blogs/reading-a-soil-report',
-  '/blogs/annual-conference-notes',
-  '/blogs/how-the-council-works',
-  '/team',
-  '/contact',
-  '/credits',
-  '/cess-nav-ink.png',
-  '/cess-nav-white.png',
-  '/favicon.png',
-];
+const CACHE_NAME = 'cess-static-cache-v3';
+const STATIC_FILE_PATTERN = /\.(?:png|jpg|jpeg|svg|webp|ico|woff2|woff)$/;
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_URLS).catch((err) => {
-        console.warn('[SW] Pre-cache partial fail:', err);
-      });
-    }).then(() => self.skipWaiting())
-  );
+self.addEventListener('install', () => {
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((name) => {
-          if (name !== CACHE_NAME) {
-            return caches.delete(name);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches
+      .keys()
+      .then((cacheNames) =>
+        Promise.all(
+          cacheNames
+            .filter((name) => name !== CACHE_NAME)
+            .map((name) => caches.delete(name))
+        )
+      )
+      .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (event) => {
   const { request } = event;
+  if (request.method !== 'GET') return;
+
   const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
 
-  // Only intercept same-origin GET requests
-  if (request.method !== 'GET' || url.origin !== self.location.origin) {
-    return;
-  }
-
-  // Bypass next dev HMR, API routes, or chrome extension traffic
-  if (url.pathname.startsWith('/api/') || url.pathname.includes('webpack-hmr')) {
-    return;
-  }
-
-  // 1. Navigation & Page Content (HTML & RSC requests): Stale-While-Revalidate for sub-40ms response
-  const isNavigation = request.mode === 'navigate' || url.searchParams.has('_rsc');
-
-  if (isNavigation) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(async (cache) => {
-        const cachedResponse = await cache.match(request);
-
-        const fetchPromise = fetch(request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              cache.put(request, networkResponse.clone());
-            }
-            return networkResponse;
-          })
-          .catch(() => cachedResponse);
-
-        // Serve from memory/disk cache in <15ms if available, otherwise wait for network
-        return cachedResponse || fetchPromise;
-      })
-    );
-    return;
-  }
-
-  // 2. Static Assets (_next/static, images, fonts): Cache-First strategy
+  // Never intercept page navigations, RSC data requests, or API routes.
+  // These must always hit the network so users get the current build.
   if (
-    url.pathname.startsWith('/_next/static/') ||
-    url.pathname.startsWith('/images/') ||
-    url.pathname.match(/\.(png|jpg|jpeg|svg|webp|ico|woff2|woff|css|js)$/)
+    request.mode === 'navigate' ||
+    url.searchParams.has('_rsc') ||
+    url.pathname.startsWith('/api/') ||
+    url.pathname.includes('webpack-hmr')
   ) {
-    event.respondWith(
-      caches.open(CACHE_NAME).then(async (cache) => {
-        const cachedResponse = await cache.match(request);
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        try {
-          const networkResponse = await fetch(request);
-          if (networkResponse && networkResponse.status === 200) {
-            cache.put(request, networkResponse.clone());
-          }
-          return networkResponse;
-        } catch {
-          return cachedResponse;
-        }
-      })
-    );
     return;
   }
+
+  const isImmutableAsset =
+    url.pathname.startsWith('/_next/static/') || STATIC_FILE_PATTERN.test(url.pathname);
+
+  if (!isImmutableAsset) return;
+
+  event.respondWith(
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const cached = await cache.match(request);
+      if (cached) return cached;
+
+      try {
+        const response = await fetch(request);
+        if (response && response.status === 200) {
+          cache.put(request, response.clone());
+        }
+        return response;
+      } catch (err) {
+        // If network fails and nothing is cached, throw to let the browser handle the offline state
+        throw err;
+      }
+    })
+  );
 });
