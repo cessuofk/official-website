@@ -410,7 +410,7 @@ export function TeamView({ cardCovers }: TeamViewProps) {
                                 style={{
                                   width: '100%',
                                   aspectRatio: '4 / 4.6',
-                                  maxHeight: '25rem',
+                                  Height: '25rem',
                                   background: 'var(--surface)',
                                   display: 'flex',
                                   alignItems: 'center',
