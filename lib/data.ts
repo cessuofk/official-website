@@ -245,7 +245,7 @@ export const EVENTS: EventItem[] = [
     location: 'Higher Education Hall, Faculty of Engineering',
     department: 'Academic',
     deptSlug: 'academic',
-    status: 'Open',
+    status: 'Closed',
     summary: 'Interactive forum led by Eng. Aseel Mulla and student batch representatives exploring curriculum modernisation, soft skills cultivation, and engineering career readiness.',
     content: [
       'Focused on student empowerment and institutional dialogue, this forum examined methods for refining academic delivery, improving laboratory access, and integrating practical software tools into civil engineering coursework.',
@@ -928,7 +928,7 @@ export const WEBSITE_CREDIT_MEMBERS: WebsiteCreditMember[] = [
     initials: 'AO',
     scope: 'Technical drafting, departmental content specifications, structural documentation, and editorial accuracy.',
     highlights: [],
-    image: '',
+    image: '/images/board/aomar.png',
   },
 ];
 
