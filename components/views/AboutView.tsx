@@ -135,7 +135,7 @@ export function AboutView({ cardCovers }: AboutViewProps) {
                 label=""
                 minHeight="24rem"
                 borderRadius="var(--radius-medium)"
-                src="/images/about.jpg"
+                src="/images/aboutPage.png"
                 alt="CESS UofK Seated Group Portrait"
               />
             )}
