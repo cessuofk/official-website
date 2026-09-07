@@ -39,7 +39,7 @@ export const STATS = [
   {
     value: '2',
     label: 'INTERNATIONAL AFFILIATIONS',
-    mechanism: 'One of the two IACES local committee in Sudan and official student chapter of ICE in the UK.',
+    mechanism: 'One of the two IACES local committee in Sudan and official student chapter of ICE.',
   },
   {
     value: '4',
@@ -578,14 +578,14 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/kho.jpg',
     isCouncilMember: true,
   },
-  {
+   {
     id: 8,
-    name: 'Khallad Eltigani',
-    role: 'Media Secretary',
+    name: 'Dania Salah',
+    role: 'Technical Secretary',
     category: 'Executive',
-    department: 'Media',
-    scope: 'Society visual identity, digital publishing, media coverage, and communication campaigns.',
-    image: '/images/board/khallad.jpg',
+    department: 'Technical',
+    scope: 'Engineering software workshops, technical training programs, and hands-on skill development.',
+    image: '/images/board/Dania.jpg',
     isCouncilMember: true,
   },
   {
@@ -599,6 +599,16 @@ export const BOARD_MEMBERS: BoardMember[] = [
     isCouncilMember: true,
   },
   {
+    id: 10,
+    name: 'Eithar Yousof',
+    role: 'External Relations Secretary',
+    category: 'Executive',
+    department: 'External Relations',
+    scope: 'IACES LC Khartoum international liaison, ICE UK chapter partnerships, and industry relations.',
+    image: '/images/board/ethar.jpg',
+    isCouncilMember: true,
+  },
+  {
     id: 26,
     name: 'Tawasoul Abubakar',
     role: 'Deputy Media Secretary',
@@ -607,16 +617,6 @@ export const BOARD_MEMBERS: BoardMember[] = [
     scope: 'Visual content design, event documentation, photographic archives, and social outreach.',
     image: '/images/board/tawasul.jpg',
     isHonorMember: true,
-  },
-  {
-    id: 10,
-    name: 'Dania Salah',
-    role: 'Technical Secretary',
-    category: 'Executive',
-    department: 'Technical',
-    scope: 'Engineering software workshops, technical training programs, and hands-on skill development.',
-    image: '/images/board/Dania.jpg',
-    isCouncilMember: true,
   },
   {
     id: 11,
@@ -638,14 +638,14 @@ export const BOARD_MEMBERS: BoardMember[] = [
     image: '/images/board/ban.jpg',
     isCouncilMember: true,
   },
-  {
+   {
     id: 13,
-    name: 'Eithar Yousof',
-    role: 'External Relations Secretary',
+    name: 'Khallad Eltigani',
+    role: 'Media Secretary',
     category: 'Executive',
-    department: 'External Relations',
-    scope: 'IACES LC Khartoum international liaison, ICE UK chapter partnerships, and industry relations.',
-    image: '/images/board/ethar.jpg',
+    department: 'Media',
+    scope: 'Society visual identity, digital publishing, media coverage, and communication campaigns.',
+    image: '/images/board/khallad.jpg',
     isCouncilMember: true,
   },
   {
